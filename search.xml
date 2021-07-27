@@ -31,7 +31,7 @@ s=\frac{j}{gcd},t=\frac{k}{gcd}</script>]]></content>
 <p>那么行数为3的情况怎么样呢？其实这里就是化归，前两行和后两行分别实现$n=2$时奇偶分布，所以是四种情况，同样扫就行。</p>
 <p><strong>算法标签</strong> <code>奇偶分析</code></p>
 <h3 id="CF-1550D"><a href="#CF-1550D" class="headerlink" title="CF 1550D"></a>CF 1550D</h3><p>这题核心在于一个偏移量的思想。设置$a_i=i+k_i$然后分析$k_i$的性质，来计数。具体思路见题解。</p>
-<p><img src="D:\MyBlog\source\_posts\image-20210718152335714.png" alt="image-20210718152335714"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0066rFaply8gsvgpc69s5j30wb0ldjyg.jpg" alt="image-20210718152335714"></p>
 <h3 id="CF-1550F"><a href="#CF-1550F" class="headerlink" title="CF 1550F"></a>CF 1550F</h3><p>这个题目很综合，也体现<strong>建图和图的处理的</strong>一些技巧。</p>
 <p>首先怎么考虑每一次$[d-k,d+k]$这个范围的跳跃的构建。其实最<strong>朴素的想法</strong>是枚举两个节点，连接一条边，边权就是坐标差的绝对值。那么适配这个题目，就再把$d$考虑进去，变成$w=|d-|a_u-a_v||$。所以如果从$s$到$i$经过的若干边，他的边权$w$都不超过$k$，那么就是满足要求的。</p>
 <p>考虑到每一次的$k$是变动的，$k$越大，相当于跳跃的约束越小。因此我们就考虑尽可能用$w$的边来构成从$s$到$i$的路径，这样就可以更大化地满足要求苛刻的$k$。于是我们可以考虑<strong>求一棵最小生成树</strong>。</p>
@@ -106,19 +106,5 @@ C_n^m \equiv C_{n/p}^{m/p}\cdot C_{n \;mod\;p}^{m\;mod\;p}\;(mod \;p),\text{p is
       <categories>
         <category>Algorithm Competitions</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2021/07/27/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
 </search>

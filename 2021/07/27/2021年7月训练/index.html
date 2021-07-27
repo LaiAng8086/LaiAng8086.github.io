@@ -34,12 +34,12 @@
 <meta property="og:site_name" content="LaiAng80586的小屋">
 <meta property="og:description" content="202107月训练CF 1547F其实我们已经想到了本质是求最长的一段不是全局公约数的子序列长度，而且$O(\sum n)$的提示也容易使人明白需要用类似尺取的方法。但差点意思的是怎么尺取呢？ 之前失败的思路，问题在于要考虑的质因数太多，并不能动态维护当前段的所有质因数。所以这时候我们需要估计对于每一个数，其质因数个数的上限——其实就是8个，所以一个一个考虑是足够的。那么问题需要转化，也就是首先所">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="d:/MyBlog/source/_posts/image-20210718152335714.png">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/0066rFaply8gsvgpc69s5j30wb0ldjyg.jpg">
 <meta property="article:published_time" content="2021-07-27T05:28:17.000Z">
-<meta property="article:modified_time" content="2021-07-27T05:29:38.400Z">
+<meta property="article:modified_time" content="2021-07-27T05:53:23.936Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="d:/MyBlog/source/_posts/image-20210718152335714.png">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/0066rFaply8gsvgpc69s5j30wb0ldjyg.jpg">
   
     <link rel="alternate" href="atom.xml" title="LaiAng80586的小屋" type="application/atom+xml">
   
@@ -98,7 +98,7 @@
 <p>那么行数为3的情况怎么样呢？其实这里就是化归，前两行和后两行分别实现$n=2$时奇偶分布，所以是四种情况，同样扫就行。</p>
 <p><strong>算法标签</strong> <code>奇偶分析</code></p>
 <h3 id="CF-1550D"><a href="#CF-1550D" class="headerlink" title="CF 1550D"></a>CF 1550D</h3><p>这题核心在于一个偏移量的思想。设置$a_i=i+k_i$然后分析$k_i$的性质，来计数。具体思路见题解。</p>
-<p><img src="D:\MyBlog\source\_posts\image-20210718152335714.png" alt="image-20210718152335714"></p>
+<p><img src="https://tva1.sinaimg.cn/large/0066rFaply8gsvgpc69s5j30wb0ldjyg.jpg" alt="image-20210718152335714"></p>
 <h3 id="CF-1550F"><a href="#CF-1550F" class="headerlink" title="CF 1550F"></a>CF 1550F</h3><p>这个题目很综合，也体现<strong>建图和图的处理的</strong>一些技巧。</p>
 <p>首先怎么考虑每一次$[d-k,d+k]$这个范围的跳跃的构建。其实最<strong>朴素的想法</strong>是枚举两个节点，连接一条边，边权就是坐标差的绝对值。那么适配这个题目，就再把$d$考虑进去，变成$w=|d-|a_u-a_v||$。所以如果从$s$到$i$经过的若干边，他的边权$w$都不超过$k$，那么就是满足要求的。</p>
 <p>考虑到每一次的$k$是变动的，$k$越大，相当于跳跃的约束越小。因此我们就考虑尽可能用$w$的边来构成从$s$到$i$的路径，这样就可以更大化地满足要求苛刻的$k$。于是我们可以考虑<strong>求一棵最小生成树</strong>。</p>
