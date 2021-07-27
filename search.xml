@@ -24,6 +24,9 @@ b[i]=\sum_{1 \leq j,k \leq n,j \bigotimes k=i}a_jk^c</script><h2 id="分析与�
 i=\frac{j}{gcd} \cdot \frac{k}{gcd}</script><p>那么不妨令</p>
 <script type="math/tex; mode=display">
 s=\frac{j}{gcd},t=\frac{k}{gcd}</script>]]></content>
+      <categories>
+        <category>Algorithm Competitions</category>
+      </categories>
       <tags>
         <tag>测试</tag>
       </tags>
