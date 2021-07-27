@@ -1,85 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>About Me！(&gt;ω&lt;*)</title>
-    <url>/2021/07/27/about/</url>
-    <content><![CDATA[<p>LaiAng8086</p>
-<p>BUAA SCSE 2020</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>2021牛客暑期多校训练营4 G Product</title>
-    <url>/2021/07/27/nowcoder4g/</url>
-    <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>给定三个整数$n,k,D$,设数列$a_i,i=1,2,…,n$,求对于所有数列满足$\forall i \in [1,n],a_i \geq 0$​且$\sum_{i=1}^na_i=D$​的情况下，</p>
-<script type="math/tex; mode=display">
-\frac{D!}{\prod_{i=1}^n(a_i+k)!}</script><p>的总和。</p>
-<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
-1 \leq n \leq 50\\
-0\leq k \leq 50\\
-D \leq 10^8</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>此题比较神仙。首先分母上$(a_i+k)!$​不太好看，假设一个$a_i :=a_i+k$​.我们考虑一个<strong>组合模型</strong>，一个长度为D的数列，每个位置上可以填$[1,n]$中的任何正整数，一共有多少中填法。通过算两次，假设我们枚举$i$出现的次数为$a_i$​，或者直接乘法原理，那么这个组合模型的描述为</p>
-<script type="math/tex; mode=display">
-(\sum_{a_i\geq0}=D) \prod_{i=1}^n \frac{D!}{a_i!}=n^D</script><p>那么回到本题。如果不要求$a_i \geq 0$即$a_i+k \geq k$时，则答案就是$n^{D+nk}$</p>
-<p>现在问题就是必须要求$a_i+k\geq k$。因此我们用容斥原理做。</p>
-<p>由于$n,k$都比较小，所以不妨记$dp[i][j]$表示“有$i$个数不满足要求且这$i$个数的和是$j$”，对于剩下的$n-i$​个数可以满足要求也可以不满足要求，其和也是确定的$D+nk-j$.因此我们可以求出”至少有$i$​个数不满足要求时对答案的贡献”:</p>
-<script type="math/tex; mode=display">
-C_{n}^{i} \cdot \sum_j dp[i][j]\cdot(n-i)^{D+nk-j}</script><p>因此答案就是$n^{D+nk}$减去”至少一个违反条件的”加上“至少两个违反条件的”减去“至少三个违反条件的”…如此递推即可。</p>
-<p>最后再乘上$\frac{D!}{(D+nk)!}$满足题意。</p>
-]]></content>
-      <categories>
-        <category>Algorithm Competitions</category>
-      </categories>
-      <tags>
-        <tag>组合数学</tag>
-        <tag>容斥原理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2021牛客暑期多校训练营4 B</title>
-    <url>/2021/07/27/2021Nowcoder4A/</url>
-    <content><![CDATA[<h2 id="A-Course"><a href="#A-Course" class="headerlink" title="A Course"></a>A Course</h2><p><strong>生成函数</strong>来计数不同课的选择方案</p>
-<script type="math/tex; mode=display">
-\sum_{i=0}^n x^i = \frac{1}{1-x^n}\\
-f_i(x) =\prod_{i \to j}  f_j...</script><h2 id="B-Sample-Game"><a href="#B-Sample-Game" class="headerlink" title="B Sample Game"></a>B Sample Game</h2><h3 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h3><p>有一个随机数生成器可以生成$[1,n]$中所有数，每个数被生成的概率为$p_i$,该生成器如果生成的数均不小于之前生成的所有数，则继续生成，否则停止。记每一轮一共生成了$x$个数，则收益为$x^2$。问期望收益。</p>
-<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><script type="math/tex; mode=display">
-1 \leq n \leq 100</script><h3 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h3><p>这个题巧妙之处在于对长度发生概率的<strong>设而不求</strong>。</p>
-<p>首先我们根据题意知道除了最后一个数之外，该生成序列是单调不降的。那么一旦我们知道了每一个数被生成了多少次，则生成序列唯一确定。因此我们可以用<strong>生成函数</strong>来描述这个期望。</p>
-<p>注意到对于一种数，它的被生成的无限期望为</p>
-<script type="math/tex; mode=display">
-E(\infty)=\sum_{i=1}^{\infty}p_s^i \cdot x_s^i=\frac{1}{1-p_sx_s}</script><p>因此从<strong>序列长度</strong>为1到长度为无穷的期望组合的描述如下</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-f(x)&=\sum_{i=1}^{\infty} \big(\sum_{s_1+s_2+...+s_n=i} \prod_{k=1}^n p_k^{s_k}) \cdot x^i\\
-&=\sum_{i=1}^{\infty}P(len>i)x^i\\
-&=\prod_{i=1}^n (1+p_ix_i+p_i^2x_i^2+...+p_i^{\infty}x_i^{\infty})\\
-&=\prod_{i=1}^n \frac{1}{1-p_ix}
-\end{aligned}</script><p>但这个描述的目的只是间接的得到概率的关系，我们还是得考虑具体的期望公式，再设法往上面得到的这个$f(x)$上转化。</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-E&=\sum_{i=0}^{\infty}\big(P(len>i) -P(len>i+1))\cdot i^2\\
-&展开后按照P(len>i)合并项得到\\
-&=\sum_{i=0}^{\infty}P(len>i)[(i+1)^2-i^2]\\
-&=\sum_{i=0}^{\infty}P(len>i)(2i+1)\\
-&=2\cdot f'(1)+f(1)
-\end{aligned}</script><p>下面再考虑求$f’(x)$</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-令g_i(x)&=\frac{1}{1-p_ix}\\
-则g_i'(x)&=\frac{p_i}{(1-p_ix)^2}\\
-故f'(x)&=\sum_{i=1}^{n}g_i'(x)\cdot \prod_{j \not=i}g_j(x)\\
-&=f(x)\cdot \sum_{i=1}^n \frac{p_i}{1-p_ix}
-\end{aligned}</script><p>故答案就是</p>
-<script type="math/tex; mode=display">
-\big(1+2\cdot\sum_{i=1}^n \frac{p_i}{1-p_i})f(1)</script>]]></content>
-      <categories>
-        <category>Algorithm Competitions</category>
-      </categories>
-      <tags>
-        <tag>生成函数</tag>
-        <tag>概率</tag>
-        <tag>设而不求</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2021年7月训练</title>
     <url>/2021/07/27/2021%E5%B9%B47%E6%9C%88%E8%AE%AD%E7%BB%83/</url>
     <content><![CDATA[<h1 id="202107月训练"><a href="#202107月训练" class="headerlink" title="202107月训练"></a>202107月训练</h1><h3 id="CF-1547F"><a href="#CF-1547F" class="headerlink" title="CF 1547F"></a>CF 1547F</h3><p>其实我们已经想到了本质是求<strong>最长的一段不是全局公约数的子序列</strong>长度，而且$O(\sum n)$的提示也容易使人明白需要用类似尺取的方法。但差点意思的是怎么尺取呢？</p>
@@ -168,6 +89,85 @@ C_n^m \equiv C_{n/p}^{m/p}\cdot C_{n \;mod\;p}^{m\;mod\;p}\;(mod \;p),\text{p is
       <categories>
         <category>Algorithm Competitions</category>
       </categories>
+  </entry>
+  <entry>
+    <title>2021牛客暑期多校训练营4 B</title>
+    <url>/2021/07/27/2021Nowcoder4A/</url>
+    <content><![CDATA[<h2 id="A-Course"><a href="#A-Course" class="headerlink" title="A Course"></a>A Course</h2><p><strong>生成函数</strong>来计数不同课的选择方案</p>
+<script type="math/tex; mode=display">
+\sum_{i=0}^n x^i = \frac{1}{1-x^n}\\
+f_i(x) =\prod_{i \to j}  f_j...</script><h2 id="B-Sample-Game"><a href="#B-Sample-Game" class="headerlink" title="B Sample Game"></a>B Sample Game</h2><h3 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h3><p>有一个随机数生成器可以生成$[1,n]$中所有数，每个数被生成的概率为$p_i$,该生成器如果生成的数均不小于之前生成的所有数，则继续生成，否则停止。记每一轮一共生成了$x$个数，则收益为$x^2$。问期望收益。</p>
+<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><script type="math/tex; mode=display">
+1 \leq n \leq 100</script><h3 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h3><p>这个题巧妙之处在于对长度发生概率的<strong>设而不求</strong>。</p>
+<p>首先我们根据题意知道除了最后一个数之外，该生成序列是单调不降的。那么一旦我们知道了每一个数被生成了多少次，则生成序列唯一确定。因此我们可以用<strong>生成函数</strong>来描述这个期望。</p>
+<p>注意到对于一种数，它的被生成的无限期望为</p>
+<script type="math/tex; mode=display">
+E(\infty)=\sum_{i=1}^{\infty}p_s^i \cdot x_s^i=\frac{1}{1-p_sx_s}</script><p>因此从<strong>序列长度</strong>为1到长度为无穷的期望组合的描述如下</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f(x)&=\sum_{i=1}^{\infty} \big(\sum_{s_1+s_2+...+s_n=i} \prod_{k=1}^n p_k^{s_k}) \cdot x^i\\
+&=\sum_{i=1}^{\infty}P(len>i)x^i\\
+&=\prod_{i=1}^n (1+p_ix_i+p_i^2x_i^2+...+p_i^{\infty}x_i^{\infty})\\
+&=\prod_{i=1}^n \frac{1}{1-p_ix}
+\end{aligned}</script><p>但这个描述的目的只是间接的得到概率的关系，我们还是得考虑具体的期望公式，再设法往上面得到的这个$f(x)$上转化。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+E&=\sum_{i=0}^{\infty}\big(P(len>i) -P(len>i+1))\cdot i^2\\
+&展开后按照P(len>i)合并项得到\\
+&=\sum_{i=0}^{\infty}P(len>i)[(i+1)^2-i^2]\\
+&=\sum_{i=0}^{\infty}P(len>i)(2i+1)\\
+&=2\cdot f'(1)+f(1)
+\end{aligned}</script><p>下面再考虑求$f’(x)$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+令g_i(x)&=\frac{1}{1-p_ix}\\
+则g_i'(x)&=\frac{p_i}{(1-p_ix)^2}\\
+故f'(x)&=\sum_{i=1}^{n}g_i'(x)\cdot \prod_{j \not=i}g_j(x)\\
+&=f(x)\cdot \sum_{i=1}^n \frac{p_i}{1-p_ix}
+\end{aligned}</script><p>故答案就是</p>
+<script type="math/tex; mode=display">
+\big(1+2\cdot\sum_{i=1}^n \frac{p_i}{1-p_i})f(1)</script>]]></content>
+      <categories>
+        <category>Algorithm Competitions</category>
+      </categories>
+      <tags>
+        <tag>生成函数</tag>
+        <tag>概率</tag>
+        <tag>设而不求</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>About Me！(&gt;ω&lt;*)</title>
+    <url>/2021/07/27/about/</url>
+    <content><![CDATA[<p>LaiAng8086</p>
+<p>BUAA SCSE 2020</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>2021牛客暑期多校训练营4 G Product</title>
+    <url>/2021/07/27/nowcoder4g/</url>
+    <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>给定三个整数$n,k,D$,设数列$a_i,i=1,2,…,n$,求对于所有数列满足$\forall i \in [1,n],a_i \geq 0$​且$\sum_{i=1}^na_i=D$​的情况下，</p>
+<script type="math/tex; mode=display">
+\frac{D!}{\prod_{i=1}^n(a_i+k)!}</script><p>的总和。</p>
+<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
+1 \leq n \leq 50\\
+0\leq k \leq 50\\
+D \leq 10^8</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>此题比较神仙。首先分母上$(a_i+k)!$​不太好看，假设一个$a_i :=a_i+k$​.我们考虑一个<strong>组合模型</strong>，一个长度为D的数列，每个位置上可以填$[1,n]$中的任何正整数，一共有多少中填法。通过算两次，假设我们枚举$i$出现的次数为$a_i$​，或者直接乘法原理，那么这个组合模型的描述为</p>
+<script type="math/tex; mode=display">
+(\sum_{a_i\geq0}=D) \prod_{i=1}^n \frac{D!}{a_i!}=n^D</script><p>那么回到本题。如果不要求$a_i \geq 0$即$a_i+k \geq k$时，则答案就是$n^{D+nk}$</p>
+<p>现在问题就是必须要求$a_i+k\geq k$。因此我们用容斥原理做。</p>
+<p>由于$n,k$都比较小，所以不妨记$dp[i][j]$表示“有$i$个数不满足要求且这$i$个数的和是$j$”，对于剩下的$n-i$​个数可以满足要求也可以不满足要求，其和也是确定的$D+nk-j$.因此我们可以求出”至少有$i$​个数不满足要求时对答案的贡献”:</p>
+<script type="math/tex; mode=display">
+C_{n}^{i} \cdot \sum_j dp[i][j]\cdot(n-i)^{D+nk-j}</script><p>因此答案就是$n^{D+nk}$减去”至少一个违反条件的”加上“至少两个违反条件的”减去“至少三个违反条件的”…如此递推即可。</p>
+<p>最后再乘上$\frac{D!}{(D+nk)!}$满足题意。</p>
+]]></content>
+      <categories>
+        <category>Algorithm Competitions</category>
+      </categories>
+      <tags>
+        <tag>组合数学</tag>
+        <tag>容斥原理</tag>
+      </tags>
   </entry>
   <entry>
     <title>2021牛客暑期多校训练营4 H题</title>
