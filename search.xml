@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>about</title>
+    <url>/2021/07/27/about/</url>
+    <content><![CDATA[<p>LaiAng8086</p>
+<p>BUAA SCSE 2020</p>
+]]></content>
+  </entry>
+  <entry>
     <title>2021牛客暑期多校训练营4 B</title>
     <url>/2021/07/27/2021Nowcoder4A/</url>
     <content><![CDATA[<h2 id="A-Course"><a href="#A-Course" class="headerlink" title="A Course"></a>A Course</h2><p><strong>生成函数</strong>来计数不同课的选择方案</p>
