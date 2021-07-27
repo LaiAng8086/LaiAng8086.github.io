@@ -5,12 +5,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LaiAng80586的小屋</title>
+    <title>2021牛客暑期多校训练营4 G Product - LaiAng80586的小屋</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="LaiAng80586,"> 
-    
+    <meta name="description" content="题目概述给定三个整数$n,k,D$,设数列$a_i,i=1,2,…,n$,求对于所有数列满足$\forall i \in [1,n],a_i \geq 0$​且$\sum_{i=1}^na_i=D$,"> 
     <meta name="author" content="John Doe"> 
     <link rel="alternative" href="atom.xml" title="LaiAng80586的小屋" type="application/atom+xml"> 
     
@@ -23,27 +23,80 @@
 <body class="loading">
     <span id="config-title" style="display:none">LaiAng80586的小屋</span>
     <div id="loader"></div>
-    <div id="single" class="page">
-    <div id="top">
-        <a class="iconfont icon-left image-icon" href="javascript:history.back()"></a>
-    </div>
-    <div class="section">
-        <div class="article">
-            <div class="main">
-                <div class="content">
-                
-                    <div class="set">
-  <h2>分类</h2>
-  <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm-Competitions/">Algorithm Competitions</a><span class="category-list-count">4</span></li></ul>
-</div>
-
-                
-                </div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://laiang8086.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">2021牛客暑期多校训练营4 G Product</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
             </div>
+            <div id="qr"></div>
         </div>
     </div>
+    <div class="scrollbar"></div>
 </div>
 
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">2021牛客暑期多校训练营4 G Product</h1>
+        <div class="stuff">
+            <span>七月 27, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6-%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" rel="tag">组合数学 容斥原理</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>给定三个整数$n,k,D$,设数列$a_i,i=1,2,…,n$,求对于所有数列满足$\forall i \in [1,n],a_i \geq 0$​且$\sum_{i=1}^na_i=D$​的情况下，</p>
+<script type="math/tex; mode=display">
+\frac{D!}{\prod_{i=1}^n(a_i+k)!}</script><p>的总和。</p>
+<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
+1 \leq n \leq 50\\
+0\leq k \leq 50\\
+D \leq 10^8</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>此题比较神仙。首先分母上$(a_i+k)!$​不太好看，假设一个$a_i :=a_i+k$​.我们考虑一个<strong>组合模型</strong>，一个长度为D的数列，每个位置上可以填$[1,n]$中的任何正整数，一共有多少中填法。通过算两次，假设我们枚举$i$出现的次数为$a_i$​，或者直接乘法原理，那么这个组合模型的描述为</p>
+<script type="math/tex; mode=display">
+(\sum_{a_i\geq0}=D) \prod_{i=1}^n \frac{D!}{a_i!}=n^D</script><p>那么回到本题。如果不要求$a_i \geq 0$即$a_i+k \geq k$时，则答案就是$n^{D+nk}$</p>
+<p>现在问题就是必须要求$a_i+k\geq k$。因此我们用容斥原理做。</p>
+<p>由于$n,k$都比较小，所以不妨记$dp[i][j]$表示“有$i$个数不满足要求且这$i$个数的和是$j$”，对于剩下的$n-i$​个数可以满足要求也可以不满足要求，其和也是确定的$D+nk-j$.因此我们可以求出”至少有$i$​个数不满足要求时对答案的贡献”:</p>
+<script type="math/tex; mode=display">
+C_{n}^{i} \cdot \sum_j dp[i][j]\cdot(n-i)^{D+nk-j}</script><p>因此答案就是$n^{D+nk}$减去”至少一个违反条件的”加上“至少两个违反条件的”减去“至少三个违反条件的”…如此递推即可。</p>
+<p>最后再乘上$\frac{D!}{(D+nk)!}$满足题意。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
 </body>
 
 
