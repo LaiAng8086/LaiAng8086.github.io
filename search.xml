@@ -41,7 +41,7 @@ E&=\sum_{i=0}^{\infin}\big(P(len>i) -P(len>i+1))\cdot i^2\\
         <category>Algorithm Competitions</category>
       </categories>
       <tags>
-        <tag>生成函数 概率 设而不求</tag>
+        <tag>生成函数,概率,设而不求</tag>
       </tags>
   </entry>
   <entry>
