@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>test</title>
-    <url>/2021/07/27/test/</url>
-    <content><![CDATA[<h1 id="牛客多校训练-4-H题"><a href="#牛客多校训练-4-H题" class="headerlink" title="牛客多校训练 4 H题"></a>牛客多校训练 4 H题</h1><h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>考虑$x=\prod_{i}p_i^{a_i}$,$y=\prod_{i}p_i^{b_i}$.定义$x \bigotimes y$=$\prod_{i}p_i^{|a_i-b_i|}$,现在给定一个数列$a[1…n]$，求出</p>
-<script type="math/tex; mode=display">
-b[i]=\sum_{1 \leq j,k \leq n,j \bigotimes k=i}a_jk^c</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>首先通过$|a_i-b_i|=max(a_i,b_i)-min(a_i,b_i)$来理解这个定义本质是$\frac{lcm(a,b)}{gcd(a,b)}$,故进一步得到</p>
-<script type="math/tex; mode=display">
-i=\frac{j}{gcd} \cdot \frac{k}{gcd}</script><p>那么不妨令</p>
-<script type="math/tex; mode=display">
-s=\frac{j}{gcd},t=\frac{k}{gcd}</script>]]></content>
-      <tags>
-        <tag>测试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2021/07/27/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -27,5 +13,19 @@ s=\frac{j}{gcd},t=\frac{k}{gcd}</script>]]></content>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2021/07/27/test/</url>
+    <content><![CDATA[<h1 id="牛客多校训练-4-H题"><a href="#牛客多校训练-4-H题" class="headerlink" title="牛客多校训练 4 H题"></a>牛客多校训练 4 H题</h1><h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>考虑$x=\prod_{i}p_i^{a_i}$,$y=\prod_{i}p_i^{b_i}$.定义$x \bigotimes y$=$\prod_{i}p_i^{|a_i-b_i|}$,现在给定一个数列$a[1…n]$，求出</p>
+<script type="math/tex; mode=display">
+b[i]=\sum_{1 \leq j,k \leq n,j \bigotimes k=i}a_jk^c</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>首先通过$|a_i-b_i|=max(a_i,b_i)-min(a_i,b_i)$来理解这个定义本质是$\frac{lcm(a,b)}{gcd(a,b)}$,故进一步得到</p>
+<script type="math/tex; mode=display">
+i=\frac{j}{gcd} \cdot \frac{k}{gcd}</script><p>那么不妨令</p>
+<script type="math/tex; mode=display">
+s=\frac{j}{gcd},t=\frac{k}{gcd}</script>]]></content>
+      <tags>
+        <tag>测试</tag>
+      </tags>
   </entry>
 </search>
