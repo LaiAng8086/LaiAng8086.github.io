@@ -50,7 +50,7 @@ f_i(x) =\prod_{i \to j}  f_j...B Samp,">
         <div class="stuff">
             <span>七月 27, 2021</span>
             
-  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0-%E6%A6%82%E7%8E%87-%E8%AE%BE%E8%80%8C%E4%B8%8D%E6%B1%82/" rel="tag">生成函数,概率,设而不求</a></li></ul>
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%A6%82%E7%8E%87/" rel="tag">概率</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" rel="tag">生成函数</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E8%AE%BE%E8%80%8C%E4%B8%8D%E6%B1%82/" rel="tag">设而不求</a></li></ul>
 
 
         </div>
@@ -64,20 +64,20 @@ f_i(x) =\prod_{i \to j}  f_j...</script><h2 id="B-Sample-Game"><a href="#B-Sampl
 <p>首先我们根据题意知道除了最后一个数之外，该生成序列是单调不降的。那么一旦我们知道了每一个数被生成了多少次，则生成序列唯一确定。因此我们可以用<strong>生成函数</strong>来描述这个期望。</p>
 <p>注意到对于一种数，它的被生成的无限期望为</p>
 <script type="math/tex; mode=display">
-E(\infin)=\sum_{i=1}^{\infin}p_s^i \cdot x_s^i=\frac{1}{1-p_sx_s}</script><p>因此从<strong>序列长度</strong>为1到长度为无穷的期望组合的描述如下</p>
+E(\infty)=\sum_{i=1}^{\infty}p_s^i \cdot x_s^i=\frac{1}{1-p_sx_s}</script><p>因此从<strong>序列长度</strong>为1到长度为无穷的期望组合的描述如下</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-f(x)&=\sum_{i=1}^{\infin} \big(\sum_{s_1+s_2+...+s_n=i} \prod_{k=1}^n p_k^{s_k}) \cdot x^i\\
-&=\sum_{i=1}^{\infin}P(len>i)x^i\\
-&=\prod_{i=1}^n (1+p_ix_i+p_i^2x_i^2+...+p_i^{\infin}x_i^{\infin})\\
+f(x)&=\sum_{i=1}^{\infty} \big(\sum_{s_1+s_2+...+s_n=i} \prod_{k=1}^n p_k^{s_k}) \cdot x^i\\
+&=\sum_{i=1}^{\infty}P(len>i)x^i\\
+&=\prod_{i=1}^n (1+p_ix_i+p_i^2x_i^2+...+p_i^{\infty}x_i^{\infty})\\
 &=\prod_{i=1}^n \frac{1}{1-p_ix}
 \end{aligned}</script><p>但这个描述的目的只是间接的得到概率的关系，我们还是得考虑具体的期望公式，再设法往上面得到的这个$f(x)$上转化。</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-E&=\sum_{i=0}^{\infin}\big(P(len>i) -P(len>i+1))\cdot i^2\\
+E&=\sum_{i=0}^{\infty}\big(P(len>i) -P(len>i+1))\cdot i^2\\
 &展开后按照P(len>i)合并项得到\\
-&=\sum_{i=0}^{\infin}P(len>i)[(i+1)^2-i^2]\\
-&=\sum_{i=0}^{\infin}P(len>i)(2i+1)\\
+&=\sum_{i=0}^{\infty}P(len>i)[(i+1)^2-i^2]\\
+&=\sum_{i=0}^{\infty}P(len>i)(2i+1)\\
 &=2\cdot f'(1)+f(1)
 \end{aligned}</script><p>下面再考虑求$f’(x)$</p>
 <script type="math/tex; mode=display">
