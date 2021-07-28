@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>About Me！(&gt;ω&lt;*)</title>
-    <url>/2021/07/27/about/</url>
-    <content><![CDATA[<p>LaiAng8086</p>
-<p>BUAA SCSE 2020</p>
-]]></content>
-  </entry>
-  <entry>
     <title>2021牛客暑期多校训练营4 G Product</title>
     <url>/2021/07/27/nowcoder4g/</url>
     <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>给定三个整数$n,k,D$,设数列$a_i,i=1,2,…,n$,求对于所有数列满足$\forall i \in [1,n],a_i \geq 0$​且$\sum_{i=1}^na_i=D$​的情况下，</p>
@@ -32,6 +25,13 @@ C_{n}^{i} \cdot \sum_j dp[i][j]\cdot(n-i)^{D+nk-j}</script><p>因此答案就是
         <tag>组合数学</tag>
         <tag>容斥原理</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>About Me！(&gt;ω&lt;*)</title>
+    <url>/2021/07/27/about/</url>
+    <content><![CDATA[<p>LaiAng8086</p>
+<p>BUAA SCSE 2020</p>
+]]></content>
   </entry>
   <entry>
     <title>2021牛客暑期多校训练营4 B</title>
