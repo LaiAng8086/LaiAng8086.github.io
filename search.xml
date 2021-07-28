@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>About Me！(&gt;ω&lt;*)</title>
+    <url>/2021/07/27/about/</url>
+    <content><![CDATA[<p>LaiAng8086</p>
+<p>BUAA SCSE 2020</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>2021牛客暑期多校训练营4 G Product</title>
+    <url>/2021/07/27/nowcoder4g/</url>
+    <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>给定三个整数$n,k,D$,设数列$a_i,i=1,2,…,n$,求对于所有数列满足$\forall i \in [1,n],a_i \geq 0$​且$\sum_{i=1}^na_i=D$​的情况下，</p>
+<script type="math/tex; mode=display">
+\frac{D!}{\prod_{i=1}^n(a_i+k)!}</script><p>的总和。</p>
+<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
+1 \leq n \leq 50\\
+0\leq k \leq 50\\
+D \leq 10^8</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>此题比较神仙。首先分母上$(a_i+k)!$​不太好看，假设一个$a_i :=a_i+k$​.我们考虑一个<strong>组合模型</strong>，一个长度为D的数列，每个位置上可以填$[1,n]$中的任何正整数，一共有多少中填法。通过算两次，假设我们枚举$i$出现的次数为$a_i$​，或者直接乘法原理，那么这个组合模型的描述为</p>
+<script type="math/tex; mode=display">
+(\sum_{a_i\geq0}=D) \prod_{i=1}^n \frac{D!}{a_i!}=n^D</script><p>那么回到本题。如果不要求$a_i \geq 0$即$a_i+k \geq k$时，则答案就是$n^{D+nk}$</p>
+<p>现在问题就是必须要求$a_i+k\geq k$。因此我们用容斥原理做。</p>
+<p>由于$n,k$都比较小，所以不妨记$dp[i][j]$表示“有$i$个数不满足要求且这$i$个数的和是$j$”，对于剩下的$n-i$​个数可以满足要求也可以不满足要求，其和也是确定的$D+nk-j$.因此我们可以求出”至少有$i$​个数不满足要求时对答案的贡献”:</p>
+<script type="math/tex; mode=display">
+C_{n}^{i} \cdot \sum_j dp[i][j]\cdot(n-i)^{D+nk-j}</script><p>因此答案就是$n^{D+nk}$减去”至少一个违反条件的”加上“至少两个违反条件的”减去“至少三个违反条件的”…如此递推即可。</p>
+<p>最后再乘上$\frac{D!}{(D+nk)!}$满足题意。</p>
+]]></content>
+      <categories>
+        <category>Algorithm Competitions</category>
+      </categories>
+      <tags>
+        <tag>组合数学</tag>
+        <tag>容斥原理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2021牛客暑期多校训练营4 B</title>
     <url>/2021/07/27/2021Nowcoder4A/</url>
     <content><![CDATA[<h2 id="A-Course"><a href="#A-Course" class="headerlink" title="A Course"></a>A Course</h2><p><strong>生成函数</strong>来计数不同课的选择方案</p>
@@ -135,39 +168,6 @@ C_n^m \equiv C_{n/p}^{m/p}\cdot C_{n \;mod\;p}^{m\;mod\;p}\;(mod \;p),\text{p is
       <categories>
         <category>Algorithm Competitions</category>
       </categories>
-  </entry>
-  <entry>
-    <title>2021牛客暑期多校训练营4 G Product</title>
-    <url>/2021/07/27/nowcoder4g/</url>
-    <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>给定三个整数$n,k,D$,设数列$a_i,i=1,2,…,n$,求对于所有数列满足$\forall i \in [1,n],a_i \geq 0$​且$\sum_{i=1}^na_i=D$​的情况下，</p>
-<script type="math/tex; mode=display">
-\frac{D!}{\prod_{i=1}^n(a_i+k)!}</script><p>的总和。</p>
-<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
-1 \leq n \leq 50\\
-0\leq k \leq 50\\
-D \leq 10^8</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>此题比较神仙。首先分母上$(a_i+k)!$​不太好看，假设一个$a_i :=a_i+k$​.我们考虑一个<strong>组合模型</strong>，一个长度为D的数列，每个位置上可以填$[1,n]$中的任何正整数，一共有多少中填法。通过算两次，假设我们枚举$i$出现的次数为$a_i$​，或者直接乘法原理，那么这个组合模型的描述为</p>
-<script type="math/tex; mode=display">
-(\sum_{a_i\geq0}=D) \prod_{i=1}^n \frac{D!}{a_i!}=n^D</script><p>那么回到本题。如果不要求$a_i \geq 0$即$a_i+k \geq k$时，则答案就是$n^{D+nk}$</p>
-<p>现在问题就是必须要求$a_i+k\geq k$。因此我们用容斥原理做。</p>
-<p>由于$n,k$都比较小，所以不妨记$dp[i][j]$表示“有$i$个数不满足要求且这$i$个数的和是$j$”，对于剩下的$n-i$​个数可以满足要求也可以不满足要求，其和也是确定的$D+nk-j$.因此我们可以求出”至少有$i$​个数不满足要求时对答案的贡献”:</p>
-<script type="math/tex; mode=display">
-C_{n}^{i} \cdot \sum_j dp[i][j]\cdot(n-i)^{D+nk-j}</script><p>因此答案就是$n^{D+nk}$减去”至少一个违反条件的”加上“至少两个违反条件的”减去“至少三个违反条件的”…如此递推即可。</p>
-<p>最后再乘上$\frac{D!}{(D+nk)!}$满足题意。</p>
-]]></content>
-      <categories>
-        <category>Algorithm Competitions</category>
-      </categories>
-      <tags>
-        <tag>组合数学</tag>
-        <tag>容斥原理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>About Me！(&gt;ω&lt;*)</title>
-    <url>/2021/07/27/about/</url>
-    <content><![CDATA[<p>LaiAng8086</p>
-<p>BUAA SCSE 2020</p>
-]]></content>
   </entry>
   <entry>
     <title>2021牛客暑期多校训练营4 H题</title>
