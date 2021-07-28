@@ -73,13 +73,6 @@ C_{n}^{i} \cdot \sum_j dp[i][j]\cdot(n-i)^{D+nk-j}</script><p>因此答案就是
       </tags>
   </entry>
   <entry>
-    <title>About Me！(&gt;ω&lt;*)</title>
-    <url>/2021/07/27/about/</url>
-    <content><![CDATA[<p>LaiAng8086</p>
-<p>BUAA SCSE 2020</p>
-]]></content>
-  </entry>
-  <entry>
     <title>2021年7月训练</title>
     <url>/2021/07/27/2021%E5%B9%B47%E6%9C%88%E8%AE%AD%E7%BB%83/</url>
     <content><![CDATA[<h1 id="202107月训练"><a href="#202107月训练" class="headerlink" title="202107月训练"></a>202107月训练</h1><h3 id="CF-1547F"><a href="#CF-1547F" class="headerlink" title="CF 1547F"></a>CF 1547F</h3><p>其实我们已经想到了本质是求<strong>最长的一段不是全局公约数的子序列</strong>长度，而且$O(\sum n)$的提示也容易使人明白需要用类似尺取的方法。但差点意思的是怎么尺取呢？</p>
@@ -170,11 +163,6 @@ C_n^m \equiv C_{n/p}^{m/p}\cdot C_{n \;mod\;p}^{m\;mod\;p}\;(mod \;p),\text{p is
       </categories>
   </entry>
   <entry>
-    <title>test-2</title>
-    <url>/2021/07/28/test-2/</url>
-    <content><![CDATA[<h2 id="本文继续测试其首页排序算法是否正确"><a href="#本文继续测试其首页排序算法是否正确" class="headerlink" title="本文继续测试其首页排序算法是否正确"></a>本文继续测试其首页排序算法是否正确</h2>]]></content>
-  </entry>
-  <entry>
     <title>2021牛客暑期多校训练营4 H题</title>
     <url>/2021/07/27/test/</url>
     <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>考虑$x=\prod_{i}p_i^{a_i}$,$y=\prod_{i}p_i^{b_i}$.定义$x \bigotimes y$=$\prod_{i}p_i^{|a_i-b_i|}$,现在给定一个数列$a[1…n]$，求出</p>
@@ -202,5 +190,17 @@ n \cdot \sum_{i=1}^N \frac{1}{i} =nlogn</script><p>前面这个$s$的枚举是$O
       <tags>
         <tag>数论</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>test-2</title>
+    <url>/2021/07/28/test-2/</url>
+    <content><![CDATA[<h2 id="本文继续测试其首页排序算法是否正确"><a href="#本文继续测试其首页排序算法是否正确" class="headerlink" title="本文继续测试其首页排序算法是否正确"></a>本文继续测试其首页排序算法是否正确</h2>]]></content>
+  </entry>
+  <entry>
+    <title>About Me！(&gt;ω&lt;*)</title>
+    <url>/2021/07/27/about/</url>
+    <content><![CDATA[<p>LaiAng8086</p>
+<p>BUAA SCSE 2020</p>
+]]></content>
   </entry>
 </search>
