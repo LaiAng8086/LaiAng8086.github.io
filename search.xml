@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2021牛客暑期多校训练营4 B</title>
+    <url>/2021/07/27/2021Nowcoder4A/</url>
+    <content><![CDATA[<h2 id="A-Course"><a href="#A-Course" class="headerlink" title="A Course"></a>A Course</h2><p><strong>生成函数</strong>来计数不同课的选择方案</p>
+<script type="math/tex; mode=display">
+\sum_{i=0}^n x^i = \frac{1}{1-x^n}\\
+f_i(x) =\prod_{i \to j}  f_j...</script><h2 id="B-Sample-Game"><a href="#B-Sample-Game" class="headerlink" title="B Sample Game"></a>B Sample Game</h2><h3 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h3><p>有一个随机数生成器可以生成$[1,n]$中所有数，每个数被生成的概率为$p_i$,该生成器如果生成的数均不小于之前生成的所有数，则继续生成，否则停止。记每一轮一共生成了$x$个数，则收益为$x^2$。问期望收益。</p>
+<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><script type="math/tex; mode=display">
+1 \leq n \leq 100</script><h3 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h3><p>这个题巧妙之处在于对长度发生概率的<strong>设而不求</strong>。</p>
+<p>首先我们根据题意知道除了最后一个数之外，该生成序列是单调不降的。那么一旦我们知道了每一个数被生成了多少次，则生成序列唯一确定。因此我们可以用<strong>生成函数</strong>来描述这个期望。</p>
+<p>注意到对于一种数，它的被生成的无限期望为</p>
+<script type="math/tex; mode=display">
+E(\infty)=\sum_{i=1}^{\infty}p_s^i \cdot x_s^i=\frac{1}{1-p_sx_s}</script><p>因此从<strong>序列长度</strong>为1到长度为无穷的期望组合的描述如下</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f(x)&=\sum_{i=1}^{\infty} \big(\sum_{s_1+s_2+...+s_n=i} \prod_{k=1}^n p_k^{s_k}) \cdot x^i\\
+&=\sum_{i=1}^{\infty}P(len>i)x^i\\
+&=\prod_{i=1}^n (1+p_ix_i+p_i^2x_i^2+...+p_i^{\infty}x_i^{\infty})\\
+&=\prod_{i=1}^n \frac{1}{1-p_ix}
+\end{aligned}</script><p>但这个描述的目的只是间接的得到概率的关系，我们还是得考虑具体的期望公式，再设法往上面得到的这个$f(x)$上转化。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+E&=\sum_{i=0}^{\infty}\big(P(len>i) -P(len>i+1))\cdot i^2\\
+&展开后按照P(len>i)合并项得到\\
+&=\sum_{i=0}^{\infty}P(len>i)[(i+1)^2-i^2]\\
+&=\sum_{i=0}^{\infty}P(len>i)(2i+1)\\
+&=2\cdot f'(1)+f(1)
+\end{aligned}</script><p>下面再考虑求$f’(x)$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+令g_i(x)&=\frac{1}{1-p_ix}\\
+则g_i'(x)&=\frac{p_i}{(1-p_ix)^2}\\
+故f'(x)&=\sum_{i=1}^{n}g_i'(x)\cdot \prod_{j \not=i}g_j(x)\\
+&=f(x)\cdot \sum_{i=1}^n \frac{p_i}{1-p_ix}
+\end{aligned}</script><p>故答案就是</p>
+<script type="math/tex; mode=display">
+\big(1+2\cdot\sum_{i=1}^n \frac{p_i}{1-p_i})f(1)</script>]]></content>
+      <categories>
+        <category>Algorithm Competitions</category>
+      </categories>
+      <tags>
+        <tag>生成函数</tag>
+        <tag>概率</tag>
+        <tag>设而不求</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2021年7月训练</title>
     <url>/2021/07/27/2021%E5%B9%B47%E6%9C%88%E8%AE%AD%E7%BB%83/</url>
     <content><![CDATA[<h1 id="202107月训练"><a href="#202107月训练" class="headerlink" title="202107月训练"></a>202107月训练</h1><h3 id="CF-1547F"><a href="#CF-1547F" class="headerlink" title="CF 1547F"></a>CF 1547F</h3><p>其实我们已经想到了本质是求<strong>最长的一段不是全局公约数的子序列</strong>长度，而且$O(\sum n)$的提示也容易使人明白需要用类似尺取的方法。但差点意思的是怎么尺取呢？</p>
@@ -109,6 +155,39 @@ C_n^m \equiv C_{n/p}^{m/p}\cdot C_{n \;mod\;p}^{m\;mod\;p}\;(mod \;p),\text{p is
       </tags>
   </entry>
   <entry>
+    <title>2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1) D Contest Strategy</title>
+    <url>/2021/07/30/gym101201d/</url>
+    <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>你正在参加一场ACM比赛。已知自己每个题解决的用时。现在你随机开了$k$道题，然后找用时最短的做了，然后再随机开一道，再选用时最短的做了。现在考虑所有开题顺序$n!$中可能，求所有情况的罚时总和。</p>
+<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
+1 \leq k<n\leq 300</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>这个题求解真是<strong>构造和分析小数据</strong>起了很大的作用。“随机”并不可怕，只要把情况都考虑全了就没有问题。</p>
+<p>首先说一些简单的性质。就是我们可以记$f[i][j]$​表示第i个题是第j个做的（注意不是开是做！）。那么很显然可以给答案贡献$f[i][j] \cdot t[i]\cdot(n-j+1)$。所以问题转化为怎么求解$f[i][j]$.</p>
+<p>我们不妨看几个例子。令$k=5$​比如下面几个状态的4号题（用时也是4个单位时间）前两个第4个做的，第三组是第3个做的：</p>
+<script type="math/tex; mode=display">
+\text{1 2 8 9 10} \; \underline{4} \;\text{3 5}\\
+\text{1} \; \underline{4} \;\text{8 9 10 2 3 5}\\
+\text{6 7 8 9 10 5} \; \underline{4} \; 3</script><p>我们从中发现几件事：</p>
+<p>为了方便，我们把题目按照解决用时从小到大排序。</p>
+<p>首先，如果$i$号题是第$j$个做的，那么到这个题做的时候，已经开了$k-1+j$​个题。而且当这个题做的时候，此时<strong>开了且没做</strong>的题目一定是用时比这个题长的。</p>
+<p>令$r=min(k-i+j,n)$​表示已经开了的题数目，$l$为已经开了的题目中用时比这个题短的。</p>
+<p>因此$f[i][j]$​一定包含乘积项$A_{n-i}^{r-1-l}$</p>
+<p>那么回到上面举的例子，很有可能某个题先开了，但是过了几轮才做，这是因为一直存在比它用时小的题目。所以我们要在计数中枚举比它用时短的题目及其排列，所以$f[i][j]$包含乘积项$A_{i-1}^{l}$</p>
+<p>由于题目要求<strong>开题都是有序</strong>的（$n!$​​种情况），因此我们枚举这道题是什么时候开的，以及<strong>比他用时短的题目</strong>都分别是什么时候开的，因此答案会有乘积项$r \cdot C_{r-1}^{l}$</p>
+<p>最后我们再考虑这个题目解决后剩下题目的解决顺序，有乘积项$(n-r)!$</p>
+<p>这样我们就得到</p>
+<p>$f[i][j]=\sum_{l=0}^{j}r\cdot C_{r-1}^{l} \cdot A_{i-1}^{l}\cdot A_{n-i}^{r-1-l} \cdot(n-r)!$</p>
+<p>但是我们立刻会发现问题，就是在枚举这个题开题和比他用时短的题目开题顺序时其实并不能这样直接用组合数算，因为这样有些情况导致$i$号题<strong>提前做了</strong>。但是我们发现这样的枚举，总是可以保证$i$号题是前$j$个被解决的题。因此我们修改$f[i][j]$​的含义是<em>第i个题是前j个做的</em>，最后再容斥一下用$f[i][j]-f[i][j-1]$去贡献答案即可。</p>
+<p>复杂度为$O(n^3)$</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#include &lt;bits/stdc++.h&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">int <span class="function"><span class="title">mread</span></span>() &#123;</span><br><span class="line">	int ret=0,f=1;</span><br><span class="line">	char c=getchar();</span><br><span class="line">	<span class="keyword">while</span>(c&lt;<span class="string">&#x27;0&#x27;</span> || c&gt;<span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(c==<span class="string">&#x27;-&#x27;</span>)f=-1;</span><br><span class="line">		c=getchar();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		ret=ret*10+c-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">		c=getchar();</span><br><span class="line">	&#125; <span class="keyword">while</span>(<span class="string">&#x27;0&#x27;</span>&lt;=c &amp;&amp; c&lt;=<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">	<span class="built_in">return</span> ret*f;</span><br><span class="line">&#125;</span><br><span class="line">typedef long long LL;</span><br><span class="line">LL combo[330][330];</span><br><span class="line">LL t[330],ans=0;</span><br><span class="line">int n,k;</span><br><span class="line">const int MOD=1e9+7;</span><br><span class="line">LL CC(int n,int m) &#123;</span><br><span class="line">	<span class="keyword">if</span>(n&lt;0 || n&lt;m || m&lt;0)<span class="built_in">return</span> 0;</span><br><span class="line">	<span class="built_in">return</span> combo[n][m];</span><br><span class="line">&#125;</span><br><span class="line">LL f[330][330];</span><br><span class="line">LL fac[330];</span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">	int r;</span><br><span class="line">	LL tmp,cnt;</span><br><span class="line">	n=mread(),k=mread();</span><br><span class="line">	<span class="keyword">for</span>(int i=1; i&lt;=n; i++)t[i]=mread();</span><br><span class="line">	sort(t+1,t+n+1);</span><br><span class="line">	<span class="keyword">for</span>(int i=0; i&lt;=n; i++)combo[i][0]=1;</span><br><span class="line">	<span class="keyword">for</span>(int i=1; i&lt;=n; i++)</span><br><span class="line">		<span class="keyword">for</span>(int j=1; j&lt;=n; j++)</span><br><span class="line">			combo[i][j]=(combo[i-1][j]+combo[i-1][j-1])%MOD;</span><br><span class="line">	fac[0]=1;</span><br><span class="line">	<span class="keyword">for</span>(int i=1; i&lt;=n; i++)fac[i]=1ll*fac[i-1]*i%MOD;</span><br><span class="line">	<span class="keyword">for</span>(int i=1; i&lt;=n; i++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(int j=1; j&lt;=n; j++) &#123;</span><br><span class="line">			r=min(j+k-1,n);</span><br><span class="line">			<span class="keyword">for</span>(int l=0; l&lt;j; l++) &#123;</span><br><span class="line">				f[i][j]=(f[i][j]+1ll*r*CC(i-1,l)%MOD*CC(r-1,l)%MOD*fac[l]%MOD*CC(n-i,r-1-l)%MOD</span><br><span class="line">				         *fac[r-1-l]%MOD*fac[n-r]%MOD+MOD)%MOD;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(int i=1; i&lt;=n; i++)</span><br><span class="line">		<span class="keyword">for</span>(int j=1; j&lt;=n; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			cnt=f[i][j]-f[i][j-1]+MOD;</span><br><span class="line">			ans=(ans+1ll*t[i]*(n-j+1)%MOD*cnt%MOD+MOD)%MOD;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>,ans);</span><br><span class="line">	<span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><p>注意题目用时可能一样，但实际上是不同的题目。这里确实是在$A_{i-1}^l$步有问题，但是可以通过容斥来弥补。</p>
+]]></content>
+      <categories>
+        <category>Algorithm Competitions</category>
+      </categories>
+      <tags>
+        <tag>组合数学</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Welcome to LaiAng80586&#39;s Blog！(&gt;ω&lt;*)</title>
     <url>/2021/07/27/about/</url>
     <content><![CDATA[<h2 id="Self-Introduction"><a href="#Self-Introduction" class="headerlink" title="Self Introduction"></a>Self Introduction</h2><p>LaiAng80586</p>
@@ -150,52 +229,6 @@ C_n^m \equiv C_{n/p}^{m/p}\cdot C_{n \;mod\;p}^{m\;mod\;p}\;(mod \;p),\text{p is
       </tags>
   </entry>
   <entry>
-    <title>2021牛客暑期多校训练营4 B</title>
-    <url>/2021/07/27/2021Nowcoder4A/</url>
-    <content><![CDATA[<h2 id="A-Course"><a href="#A-Course" class="headerlink" title="A Course"></a>A Course</h2><p><strong>生成函数</strong>来计数不同课的选择方案</p>
-<script type="math/tex; mode=display">
-\sum_{i=0}^n x^i = \frac{1}{1-x^n}\\
-f_i(x) =\prod_{i \to j}  f_j...</script><h2 id="B-Sample-Game"><a href="#B-Sample-Game" class="headerlink" title="B Sample Game"></a>B Sample Game</h2><h3 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h3><p>有一个随机数生成器可以生成$[1,n]$中所有数，每个数被生成的概率为$p_i$,该生成器如果生成的数均不小于之前生成的所有数，则继续生成，否则停止。记每一轮一共生成了$x$个数，则收益为$x^2$。问期望收益。</p>
-<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><script type="math/tex; mode=display">
-1 \leq n \leq 100</script><h3 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h3><p>这个题巧妙之处在于对长度发生概率的<strong>设而不求</strong>。</p>
-<p>首先我们根据题意知道除了最后一个数之外，该生成序列是单调不降的。那么一旦我们知道了每一个数被生成了多少次，则生成序列唯一确定。因此我们可以用<strong>生成函数</strong>来描述这个期望。</p>
-<p>注意到对于一种数，它的被生成的无限期望为</p>
-<script type="math/tex; mode=display">
-E(\infty)=\sum_{i=1}^{\infty}p_s^i \cdot x_s^i=\frac{1}{1-p_sx_s}</script><p>因此从<strong>序列长度</strong>为1到长度为无穷的期望组合的描述如下</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-f(x)&=\sum_{i=1}^{\infty} \big(\sum_{s_1+s_2+...+s_n=i} \prod_{k=1}^n p_k^{s_k}) \cdot x^i\\
-&=\sum_{i=1}^{\infty}P(len>i)x^i\\
-&=\prod_{i=1}^n (1+p_ix_i+p_i^2x_i^2+...+p_i^{\infty}x_i^{\infty})\\
-&=\prod_{i=1}^n \frac{1}{1-p_ix}
-\end{aligned}</script><p>但这个描述的目的只是间接的得到概率的关系，我们还是得考虑具体的期望公式，再设法往上面得到的这个$f(x)$上转化。</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-E&=\sum_{i=0}^{\infty}\big(P(len>i) -P(len>i+1))\cdot i^2\\
-&展开后按照P(len>i)合并项得到\\
-&=\sum_{i=0}^{\infty}P(len>i)[(i+1)^2-i^2]\\
-&=\sum_{i=0}^{\infty}P(len>i)(2i+1)\\
-&=2\cdot f'(1)+f(1)
-\end{aligned}</script><p>下面再考虑求$f’(x)$</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-令g_i(x)&=\frac{1}{1-p_ix}\\
-则g_i'(x)&=\frac{p_i}{(1-p_ix)^2}\\
-故f'(x)&=\sum_{i=1}^{n}g_i'(x)\cdot \prod_{j \not=i}g_j(x)\\
-&=f(x)\cdot \sum_{i=1}^n \frac{p_i}{1-p_ix}
-\end{aligned}</script><p>故答案就是</p>
-<script type="math/tex; mode=display">
-\big(1+2\cdot\sum_{i=1}^n \frac{p_i}{1-p_i})f(1)</script>]]></content>
-      <categories>
-        <category>Algorithm Competitions</category>
-      </categories>
-      <tags>
-        <tag>生成函数</tag>
-        <tag>概率</tag>
-        <tag>设而不求</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2021牛客暑期多校训练营4 G Product</title>
     <url>/2021/07/27/nowcoder4g/</url>
     <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>给定三个整数$n,k,D$,设数列$a_i,i=1,2,…,n$,求对于所有数列满足$\forall i \in [1,n],a_i \geq 0$​且$\sum_{i=1}^na_i=D$​的情况下，</p>
@@ -219,6 +252,24 @@ C_{n}^{i} \cdot \sum_j dp[i][j]\cdot(n-i)^{D+nk-j}</script><p>因此答案就是
       <tags>
         <tag>组合数学</tag>
         <tag>容斥原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2021牛客暑期多校训练营3 C Minimum grid</title>
+    <url>/2021/07/28/nowcoder3c/</url>
+    <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>有一个$n \times n$的方阵，其中一些格子可以填数，其他格子均不能填数，且每行有一个最大值要求$b_i$，每列有一个最大值要求$c_i$，即填的数得保证这些最大值要求被满足。现在求最小的填数之和。</p>
+<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
+1 \leq n\leq 2\cdot 10^3\\</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>这种看起来具体需要“填一填”弄出具体方案的题目，不妨从<strong>必要条件</strong>入手去分析。我们猜测，在不填“多余的数”的情况下，这个和至少得是$\sum_{i=1}^n b_i+c_i$​​。很快我们发现这个必要条件可以优化，其实就是如果一个格子<strong>对应行列的最大值要求时相等</strong>的，那么其实填这个格子就<strong>节省</strong>了一个最大值。（如果不相等的话是不能实现“1换2”的）</p>
+<p>所以我们的目标就是找出所有能够节省最大值的情况——<strong>同一行同一列</strong>只在上述的<strong>一个</strong>这种格子上放数，才能实现节省。于是我们用二分图求最大匹配来配置这些格子，即这种格子的行列连边，然后跑二分图匹配。再从答案中减掉匹配成功对应行列的最大值。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 2010</span></span><br><span class="line"><span class="keyword">int</span> n,m,k;</span><br><span class="line"><span class="keyword">int</span> b[MAXN],c[MAXN];</span><br><span class="line"><span class="keyword">namespace</span> graph &#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1e4</span>;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">		<span class="keyword">int</span> v;</span><br><span class="line">		node *nnext;</span><br><span class="line">	&#125; pool[<span class="number">2</span>*N],*h[<span class="number">2</span>*N];</span><br><span class="line">	<span class="keyword">int</span> cnt=<span class="number">-1</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">		node *p=&amp;pool[++cnt];</span><br><span class="line">		p-&gt;v=v,p-&gt;nnext=h[u],h[u]=p;</span><br><span class="line">		node *q=&amp;pool[++cnt];</span><br><span class="line">		q-&gt;v=u,q-&gt;nnext=h[v],h[v]=q;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> connect[N];</span><br><span class="line">	<span class="keyword">bool</span> state[N];</span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> v;</span><br><span class="line">		<span class="keyword">for</span>(node *p=h[u]; p; p=p-&gt;nnext) &#123;</span><br><span class="line">			v=p-&gt;v;</span><br><span class="line">			<span class="keyword">if</span>(!state[v]) &#123;</span><br><span class="line">				state[v]=<span class="literal">true</span>;</span><br><span class="line">				<span class="keyword">if</span>(connect[v]==<span class="number">0</span> || <span class="built_in">dfs</span>(connect[v])) &#123;</span><br><span class="line">					connect[v]=u;</span><br><span class="line">					<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function">LL <span class="title">hungary</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		LL ret=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; j++) &#123;</span><br><span class="line">			<span class="built_in">memset</span>(state,<span class="number">0</span>,<span class="built_in"><span class="keyword">sizeof</span></span>(state));</span><br><span class="line">			<span class="keyword">if</span>(<span class="built_in">dfs</span>(j))</span><br><span class="line">				ret+=b[j];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ret;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> u,v;</span><br><span class="line">	LL ans=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>,&amp;n,&amp;m,&amp;k);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++) &#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;b[i]);</span><br><span class="line">		ans+=b[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++) &#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;c[i]);</span><br><span class="line">		ans+=c[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=m; i++) &#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;u,&amp;v);</span><br><span class="line">		<span class="keyword">if</span>(b[u]==c[v])</span><br><span class="line">			graph::<span class="built_in">addedge</span>(u,n+v);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>,ans - graph::<span class="built_in">hungary</span>());</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Algorithm Competitions</category>
+      </categories>
+      <tags>
+        <tag>图论</tag>
+        <tag>构图</tag>
+        <tag>二分图最大匹配</tag>
       </tags>
   </entry>
   <entry>
@@ -248,24 +299,6 @@ n \cdot \sum_{i=1}^N \frac{1}{i} =nlogn</script><p>前面这个$s$的枚举是$O
       </categories>
       <tags>
         <tag>数论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2021牛客暑期多校训练营3 C Minimum grid</title>
-    <url>/2021/07/28/nowcoder3c/</url>
-    <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>有一个$n \times n$的方阵，其中一些格子可以填数，其他格子均不能填数，且每行有一个最大值要求$b_i$，每列有一个最大值要求$c_i$，即填的数得保证这些最大值要求被满足。现在求最小的填数之和。</p>
-<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
-1 \leq n\leq 2\cdot 10^3\\</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>这种看起来具体需要“填一填”弄出具体方案的题目，不妨从<strong>必要条件</strong>入手去分析。我们猜测，在不填“多余的数”的情况下，这个和至少得是$\sum_{i=1}^n b_i+c_i$​​。很快我们发现这个必要条件可以优化，其实就是如果一个格子<strong>对应行列的最大值要求时相等</strong>的，那么其实填这个格子就<strong>节省</strong>了一个最大值。（如果不相等的话是不能实现“1换2”的）</p>
-<p>所以我们的目标就是找出所有能够节省最大值的情况——<strong>同一行同一列</strong>只在上述的<strong>一个</strong>这种格子上放数，才能实现节省。于是我们用二分图求最大匹配来配置这些格子，即这种格子的行列连边，然后跑二分图匹配。再从答案中减掉匹配成功对应行列的最大值。</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 2010</span></span><br><span class="line"><span class="keyword">int</span> n,m,k;</span><br><span class="line"><span class="keyword">int</span> b[MAXN],c[MAXN];</span><br><span class="line"><span class="keyword">namespace</span> graph &#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1e4</span>;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">		<span class="keyword">int</span> v;</span><br><span class="line">		node *nnext;</span><br><span class="line">	&#125; pool[<span class="number">2</span>*N],*h[<span class="number">2</span>*N];</span><br><span class="line">	<span class="keyword">int</span> cnt=<span class="number">-1</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">		node *p=&amp;pool[++cnt];</span><br><span class="line">		p-&gt;v=v,p-&gt;nnext=h[u],h[u]=p;</span><br><span class="line">		node *q=&amp;pool[++cnt];</span><br><span class="line">		q-&gt;v=u,q-&gt;nnext=h[v],h[v]=q;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> connect[N];</span><br><span class="line">	<span class="keyword">bool</span> state[N];</span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> v;</span><br><span class="line">		<span class="keyword">for</span>(node *p=h[u]; p; p=p-&gt;nnext) &#123;</span><br><span class="line">			v=p-&gt;v;</span><br><span class="line">			<span class="keyword">if</span>(!state[v]) &#123;</span><br><span class="line">				state[v]=<span class="literal">true</span>;</span><br><span class="line">				<span class="keyword">if</span>(connect[v]==<span class="number">0</span> || <span class="built_in">dfs</span>(connect[v])) &#123;</span><br><span class="line">					connect[v]=u;</span><br><span class="line">					<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function">LL <span class="title">hungary</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		LL ret=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; j++) &#123;</span><br><span class="line">			<span class="built_in">memset</span>(state,<span class="number">0</span>,<span class="built_in"><span class="keyword">sizeof</span></span>(state));</span><br><span class="line">			<span class="keyword">if</span>(<span class="built_in">dfs</span>(j))</span><br><span class="line">				ret+=b[j];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ret;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> u,v;</span><br><span class="line">	LL ans=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>,&amp;n,&amp;m,&amp;k);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++) &#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;b[i]);</span><br><span class="line">		ans+=b[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++) &#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;c[i]);</span><br><span class="line">		ans+=c[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=m; i++) &#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;u,&amp;v);</span><br><span class="line">		<span class="keyword">if</span>(b[u]==c[v])</span><br><span class="line">			graph::<span class="built_in">addedge</span>(u,n+v);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>,ans - graph::<span class="built_in">hungary</span>());</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Algorithm Competitions</category>
-      </categories>
-      <tags>
-        <tag>图论</tag>
-        <tag>构图</tag>
-        <tag>二分图最大匹配</tag>
       </tags>
   </entry>
   <entry>

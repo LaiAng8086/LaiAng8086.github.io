@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1) D Contest Strategy - LaiAng80586的小屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="LaiAng80586,"> 
+    <meta name="description" content="题目概述你正在参加一场ACM比赛。已知自己每个题解决的用时。现在你随机开了$k$道题，然后找用时最短的做了，然后再随机开一道，再选用时最短的做了。现在考虑所有开题顺序$n!$中可能，求所有情况的罚时,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="LaiAng80586的小屋" type="application/atom+xml"> 
+    
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">LaiAng80586的小屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://laiang8086.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1) D Contest Strategy</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1) D Contest Strategy</h1>
+        <div class="stuff">
+            <span>七月 30, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" rel="tag">组合数学</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>你正在参加一场ACM比赛。已知自己每个题解决的用时。现在你随机开了$k$道题，然后找用时最短的做了，然后再随机开一道，再选用时最短的做了。现在考虑所有开题顺序$n!$中可能，求所有情况的罚时总和。</p>
+<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
+1 \leq k<n\leq 300</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>这个题求解真是<strong>构造和分析小数据</strong>起了很大的作用。“随机”并不可怕，只要把情况都考虑全了就没有问题。</p>
+<p>首先说一些简单的性质。就是我们可以记$f[i][j]$​表示第i个题是第j个做的（注意不是开是做！）。那么很显然可以给答案贡献$f[i][j] \cdot t[i]\cdot(n-j+1)$。所以问题转化为怎么求解$f[i][j]$.</p>
+<p>我们不妨看几个例子。令$k=5$​比如下面几个状态的4号题（用时也是4个单位时间）前两个第4个做的，第三组是第3个做的：</p>
+<script type="math/tex; mode=display">
+\text{1 2 8 9 10} \; \underline{4} \;\text{3 5}\\
+\text{1} \; \underline{4} \;\text{8 9 10 2 3 5}\\
+\text{6 7 8 9 10 5} \; \underline{4} \; 3</script><p>我们从中发现几件事：</p>
+<p>为了方便，我们把题目按照解决用时从小到大排序。</p>
+<p>首先，如果$i$号题是第$j$个做的，那么到这个题做的时候，已经开了$k-1+j$​个题。而且当这个题做的时候，此时<strong>开了且没做</strong>的题目一定是用时比这个题长的。</p>
+<p>令$r=min(k-i+j,n)$​表示已经开了的题数目，$l$为已经开了的题目中用时比这个题短的。</p>
+<p>因此$f[i][j]$​一定包含乘积项$A_{n-i}^{r-1-l}$</p>
+<p>那么回到上面举的例子，很有可能某个题先开了，但是过了几轮才做，这是因为一直存在比它用时小的题目。所以我们要在计数中枚举比它用时短的题目及其排列，所以$f[i][j]$包含乘积项$A_{i-1}^{l}$</p>
+<p>由于题目要求<strong>开题都是有序</strong>的（$n!$​​种情况），因此我们枚举这道题是什么时候开的，以及<strong>比他用时短的题目</strong>都分别是什么时候开的，因此答案会有乘积项$r \cdot C_{r-1}^{l}$</p>
+<p>最后我们再考虑这个题目解决后剩下题目的解决顺序，有乘积项$(n-r)!$</p>
+<p>这样我们就得到</p>
+<p>$f[i][j]=\sum_{l=0}^{j}r\cdot C_{r-1}^{l} \cdot A_{i-1}^{l}\cdot A_{n-i}^{r-1-l} \cdot(n-r)!$</p>
+<p>但是我们立刻会发现问题，就是在枚举这个题开题和比他用时短的题目开题顺序时其实并不能这样直接用组合数算，因为这样有些情况导致$i$号题<strong>提前做了</strong>。但是我们发现这样的枚举，总是可以保证$i$号题是前$j$个被解决的题。因此我们修改$f[i][j]$​的含义是<em>第i个题是前j个做的</em>，最后再容斥一下用$f[i][j]-f[i][j-1]$去贡献答案即可。</p>
+<p>复杂度为$O(n^3)$</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;bits/stdc++.h&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">int <span class="function"><span class="title">mread</span></span>() &#123;</span><br><span class="line">	int ret=0,f=1;</span><br><span class="line">	char c=getchar();</span><br><span class="line">	<span class="keyword">while</span>(c&lt;<span class="string">&#x27;0&#x27;</span> || c&gt;<span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(c==<span class="string">&#x27;-&#x27;</span>)f=-1;</span><br><span class="line">		c=getchar();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		ret=ret*10+c-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">		c=getchar();</span><br><span class="line">	&#125; <span class="keyword">while</span>(<span class="string">&#x27;0&#x27;</span>&lt;=c &amp;&amp; c&lt;=<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">	<span class="built_in">return</span> ret*f;</span><br><span class="line">&#125;</span><br><span class="line">typedef long long LL;</span><br><span class="line">LL combo[330][330];</span><br><span class="line">LL t[330],ans=0;</span><br><span class="line">int n,k;</span><br><span class="line">const int MOD=1e9+7;</span><br><span class="line">LL CC(int n,int m) &#123;</span><br><span class="line">	<span class="keyword">if</span>(n&lt;0 || n&lt;m || m&lt;0)<span class="built_in">return</span> 0;</span><br><span class="line">	<span class="built_in">return</span> combo[n][m];</span><br><span class="line">&#125;</span><br><span class="line">LL f[330][330];</span><br><span class="line">LL fac[330];</span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">	int r;</span><br><span class="line">	LL tmp,cnt;</span><br><span class="line">	n=mread(),k=mread();</span><br><span class="line">	<span class="keyword">for</span>(int i=1; i&lt;=n; i++)t[i]=mread();</span><br><span class="line">	sort(t+1,t+n+1);</span><br><span class="line">	<span class="keyword">for</span>(int i=0; i&lt;=n; i++)combo[i][0]=1;</span><br><span class="line">	<span class="keyword">for</span>(int i=1; i&lt;=n; i++)</span><br><span class="line">		<span class="keyword">for</span>(int j=1; j&lt;=n; j++)</span><br><span class="line">			combo[i][j]=(combo[i-1][j]+combo[i-1][j-1])%MOD;</span><br><span class="line">	fac[0]=1;</span><br><span class="line">	<span class="keyword">for</span>(int i=1; i&lt;=n; i++)fac[i]=1ll*fac[i-1]*i%MOD;</span><br><span class="line">	<span class="keyword">for</span>(int i=1; i&lt;=n; i++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(int j=1; j&lt;=n; j++) &#123;</span><br><span class="line">			r=min(j+k-1,n);</span><br><span class="line">			<span class="keyword">for</span>(int l=0; l&lt;j; l++) &#123;</span><br><span class="line">				f[i][j]=(f[i][j]+1ll*r*CC(i-1,l)%MOD*CC(r-1,l)%MOD*fac[l]%MOD*CC(n-i,r-1-l)%MOD</span><br><span class="line">				         *fac[r-1-l]%MOD*fac[n-r]%MOD+MOD)%MOD;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(int i=1; i&lt;=n; i++)</span><br><span class="line">		<span class="keyword">for</span>(int j=1; j&lt;=n; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			cnt=f[i][j]-f[i][j-1]+MOD;</span><br><span class="line">			ans=(ans+1ll*t[i]*(n-j+1)%MOD*cnt%MOD+MOD)%MOD;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>,ans);</span><br><span class="line">	<span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><p>注意题目用时可能一样，但实际上是不同的题目。这里确实是在$A_{i-1}^l$步有问题，但是可以通过容斥来弥补。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>
