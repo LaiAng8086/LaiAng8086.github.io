@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>二分图最大权匹配KM算法介绍 - LaiAng80586的小屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="LaiAng80586,"> 
+    <meta name="description" content="一、定义完备匹配 ： X点集所有的点都参与了匹配。
+可行边 ： $lx[i]+ly[j] \geq w[i][j]$的边
+相等子图 ：包含所有点和可行边的子图。
+顶标 ： $lx[i],ly[j]$,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="LaiAng80586的小屋" type="application/atom+xml"> 
+    
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">LaiAng80586的小屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://laiang8086.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">二分图最大权匹配KM算法介绍</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">二分图最大权匹配KM算法介绍</h1>
+        <div class="stuff">
+            <span>八月 01, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E4%BA%8C%E5%88%86%E5%9B%BE%E6%9C%80%E5%A4%A7%E6%9D%83%E5%8C%B9%E9%85%8D/" rel="tag">二分图最大权匹配</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag">图论</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h1><p><code>完备匹配</code> ： X点集所有的点都参与了匹配。</p>
+<p><code>可行边</code> ： $lx[i]+ly[j] \geq w[i][j]$的边</p>
+<p><code>相等子图</code> ：包含所有点和<strong>可行边</strong>的子图。</p>
+<p><code>顶标</code> ： $lx[i],ly[j]$​,人为赋值的点权，为了控制可行边而设立。</p>
+<p><code>松弛量</code> ：$\forall i \in Y,slack[y]=min(lx[x]+ly[i]-w[x][i])$</p>
+<p><code>顶标修改量</code> ： $d=min(slack[y])$</p>
+<p>需要注意的是，松弛量和顶标修改量都是针对当前没有被匹配的Y部的点来操作的。</p>
+<h1 id="二、流程"><a href="#二、流程" class="headerlink" title="二、流程"></a>二、流程</h1><h2 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h2><p>给X、Y两部点的顶标进行贪心地赋值，然后修改顶标值使得更多的边成为可行边，扩大相等子图，从而增加匹配，直到相等子图达到完备匹配。</p>
+<h2 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h2><p>①初始化设定$lx[i]=max_{i \to j}(w[i][j])$,$ly[i]=0$</p>
+<p>②对每个X部的点，<strong>尝试增加匹配</strong>。更新Y部点的松弛量，并求得顶标修改量。记录下最终贡献顶标修改量的<strong>Y部节点</strong>，即为本次增广的匹配点。为了降低复杂度，需要<strong>记录改善匹配的路径</strong>（用前向星）。所以调整完所有的松弛量和顶标修改后，更新匹配状态。</p>
+<p>③答案就是Y部每个点与对应X部匹配点之间连边权值之和</p>
+<h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p>$O(n^3)$</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>注：这份代码适用于处理X、Y部节点数相等的情况</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> INF=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">550</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n,m,match[N],pre[N];</span><br><span class="line"><span class="keyword">bool</span> vis2[N];</span><br><span class="line">ll favor[N][N],val1[N],val2[N],slack[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bfs</span><span class="params">(<span class="keyword">int</span> p)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x,y=<span class="number">0</span>,yy=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">memset</span>(pre,<span class="number">0</span>,<span class="keyword">sizeof</span> pre);</span><br><span class="line">	<span class="built_in">memset</span>(slack,INF,<span class="keyword">sizeof</span> slack);</span><br><span class="line">	match[<span class="number">0</span>]=p;  <span class="comment">// </span></span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		ll d=INF;</span><br><span class="line">		x=match[y];</span><br><span class="line">		vis2[y]=<span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++) &#123;</span><br><span class="line">			<span class="keyword">if</span>(vis2[i])</span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			<span class="keyword">if</span>(slack[i]&gt;val1[x]+val2[i]-favor[x][i]) &#123;</span><br><span class="line">				slack[i]=val1[x]+val2[i]-favor[x][i];</span><br><span class="line">				pre[i]=y;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(slack[i]&lt;d) &#123;</span><br><span class="line">				d=slack[i]; <span class="comment">//d取最小可能</span></span><br><span class="line">				yy=i; <span class="comment">//记录最小可能存在的点</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;=n; i++) &#123;</span><br><span class="line">			<span class="keyword">if</span>(vis2[i])</span><br><span class="line">				val1[match[i]]-=d,val2[i]+=d;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				slack[i]-=d;</span><br><span class="line">		&#125;</span><br><span class="line">		y=yy;</span><br><span class="line">	&#125; <span class="keyword">while</span>(match[y]);</span><br><span class="line">	<span class="keyword">while</span>(y) &#123;</span><br><span class="line">		match[y]=match[pre[y]]; <span class="comment">//bfs对访问路径进行记录，并在最后一并改变match</span></span><br><span class="line">		y=pre[y];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">KM</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(match,<span class="number">0</span>,<span class="keyword">sizeof</span> match);</span><br><span class="line">	<span class="built_in">memset</span>(val1,<span class="number">0</span>,<span class="keyword">sizeof</span> val1);</span><br><span class="line">	<span class="built_in">memset</span>(val2,<span class="number">0</span>,<span class="keyword">sizeof</span> val2);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++) &#123;</span><br><span class="line">		<span class="built_in">memset</span>(vis2,<span class="literal">false</span>,<span class="keyword">sizeof</span> vis2);</span><br><span class="line">		<span class="built_in">bfs</span>(i);</span><br><span class="line">	&#125;</span><br><span class="line">	ll res=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">		res+=favor[match[i]][i]; <span class="comment">//最后将对应匹配的边权求和输出</span></span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> u,v;</span><br><span class="line">	ll w;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;n,&amp;m);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; j++)</span><br><span class="line">			favor[i][j]=-INF;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=m; i++) &#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%lld&quot;</span>,&amp;u,&amp;v,&amp;w);</span><br><span class="line">		favor[u][v]=<span class="built_in">max</span>(favor[u][v],w);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>,<span class="built_in">KM</span>());</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,match[i]);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="形象理解"><a href="#形象理解" class="headerlink" title="形象理解"></a>形象理解</h2><p>参考网上对于这一算法的形象理解</p>
+<p>现在有N男N女，有些男生和女生之间互相有好感，我们将其好感程度定义为好感度，我们希望把他们两两配对，并且最后希望好感度和最大。</p>
+<p><img src="C:/Users/LaiAng80586/Downloads/670878-20170604131038711-1791348557.png" alt="670878-20170604131038711-1791348557"></p>
+<p>怎么选择最优的配对方法呢？</p>
+<p>首先，每个女生会有一个期望值，就是与她有好感度的男生中最大的好感度。男生呢，期望值为0，就是……只要有一个妹子就可以啦，不挑~~</p>
+<p>这样，我们把每个人的期望值标出来。</p>
+<p><img src="https://images2015.cnblogs.com/blog/670878/201706/670878-20170604131636211-2003102082.png" alt="KM算法详解-wenr"></p>
+<p>接下来，开始配对。</p>
+<p>配对方法：</p>
+<p>我们从第一个女生开始，分别为每一个女生找对象。</p>
+<p>每次都从第一个男生开始，选择一个男生，使男女两人的<strong>期望和要等于两人之间的好感度</strong>。</p>
+<p><strong>注意：每一轮匹配，每个男生只会被尝试匹配一次！</strong></p>
+<h3 id="具体匹配过程"><a href="#具体匹配过程" class="headerlink" title="具体匹配过程"></a>具体匹配过程</h3><p><strong>为女1找对象</strong></p>
+<p>（此时无人配对成功）</p>
+<p>根据 “男女两人的期望和要等于两人之间的好感度”的规则</p>
+<p>女1-男1：4+0 $\not=$ 3</p>
+<p>女1-男3：4+0 $=$ 4</p>
+<p>所以女1选择了男3</p>
+<p><strong>女1找对象成功</strong></p>
+<hr>
+<p><strong>为女2找对象</strong></p>
+<p>（此时女1—男3）</p>
+<p>根据配对原则，女2选择男3</p>
+<p>男3有主女1，女1尝试换人</p>
+<p>我们尝试让女1去找别人</p>
+<p>尝试失败</p>
+<p>为女2找对象失败！</p>
+<p><strong>为女2找对象失败</strong></p>
+<hr>
+<p>这一轮参与匹配的人有：女1，女2，男3。</p>
+<p>怎么办？？？很容易想到的，这两个女生只能降低一下期望值了，降低多少呢？</p>
+<p><strong>任意一个参与匹配女生能换到任意一个 <em>这轮</em> 没有被选择过的男生所需要降低的最小值</strong></p>
+<p>比如：女1选择男1，期望值要降低1。 女2选择男1，期望值要降低1。 女2选择男2，期望值要降低2。</p>
+<p>于是，只要期望值降低1，就有妹子可能选择其他人。所以<strong>妹子们的期望值要降低</strong>1点。</p>
+<p>同时，刚才被抢的<strong>男生</strong>此时非常得意，因为有妹子来抢他，于是他的<strong>期望值提高</strong>了1点（就是同妹子们降低的期望值相同）。</p>
+<p>于是期望值变成这样（当然，不参与刚才匹配过程的人期望值不变）</p>
+<p><img src="https://images2015.cnblogs.com/blog/670878/201706/670878-20170604133607977-673472679.png" alt="KM详解-wenr"></p>
+<p><strong>继续为女2找对象</strong></p>
+<p>（此时女1—男3）</p>
+<p>女2选择了男1</p>
+<p>男1还没有被配对</p>
+<p>女2找对象成功！</p>
+<p><strong>为女2找对象成功</strong></p>
+<hr>
+<p><strong>为女3找对象</strong></p>
+<p>（此时女1—男3，女2-男1）</p>
+<p>女3没有可以配对的男生……</p>
+<p>女3找对象失败</p>
+<p><strong>为女3找对象失败</strong></p>
+<hr>
+<p>此轮只有女3参与匹配</p>
+<p>此时应该为女3降低期望值</p>
+<p>降低期望值1的时候，女3-男3可以配对，所以女3降低期望值1</p>
+<p><img src="https://images2015.cnblogs.com/blog/670878/201706/670878-20170604134242836-1033770068.png" alt="KM算法详解"></p>
+<p><strong>继续为女3找对象</strong></p>
+<p>（此时女1—男3， 女2-男1）</p>
+<p>女3相中了男3</p>
+<p>此时男3已经有主女1，于是女1尝试换人</p>
+<p>女1选择男1</p>
+<p>而男1也已经有主女2，女2尝试换人</p>
+<p>前面说过，每一轮匹配每个男生只被匹配一次</p>
+<p>所以女2换人失败</p>
+<p>女3找对象再次失败</p>
+<p><strong>为女3找对象失败</strong></p>
+<hr>
+<p>这一轮匹配相关人员：女1，女2，女3，男1，男3</p>
+<p>此时，只要女2降低1点期望值，就能换到男2</p>
+<p>（前面提过 只要任意一个女生能换到任意一个没有被选择过的男生所需要降低的最小值）</p>
+<p>我们把相应人员期望值改变一下</p>
+<p><img src="https://images2015.cnblogs.com/blog/670878/201706/670878-20170604135204336-990535246.png" alt="KM算法详解-wenr"></p>
+<p><strong>还是为女3找对象</strong></p>
+<p>（此时女1—男3， 女2-男1）</p>
+<p>女3选择了男3</p>
+<p>男3有主女1，女1尝试换人</p>
+<p>女1换到了男1</p>
+<p>男1已经有主女2，女2尝试换人</p>
+<p>女2换人男2</p>
+<p>男2无主，匹配成功！！！</p>
+<p><strong>为女3找对象成功</strong></p>
+<hr>
+<p>匹配成功！！！撒花~~</p>
+<p>到此匹配全部结束</p>
+<p>此时</p>
+<p>女1-男1，女2-男2，女3-男3</p>
+<p>好感度和为最大：9</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>
