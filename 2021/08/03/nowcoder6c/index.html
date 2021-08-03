@@ -5,12 +5,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tag: 递推与动归 - LaiAng80586的小屋</title>
+    <title>2021牛客暑期多校训练营6 C Delete Edges - LaiAng80586的小屋</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="LaiAng80586,"> 
-    
+    <meta name="description" content="题目概述给出一个$n$个点的完全图，删除一些三元环使得剩下的边数少于$n$条。
+数据范围
+3 \leq n \leq 2000分析与解这个题实在是一个构造题。说来惭愧，并不知道这个转化为何是正确的。,"> 
     <meta name="author" content="John Doe"> 
     <link rel="alternative" href="atom.xml" title="LaiAng80586的小屋" type="application/atom+xml"> 
     
@@ -23,125 +25,93 @@
 <body class="loading">
     <span id="config-title" style="display:none">LaiAng80586的小屋</span>
     <div id="loader"></div>
-    <div class="nav">
-    <ul id="menu-menu" class="menu">
-        
-        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
-            <a href="//" title="首页" target="_blank" rel="noopener">首页</a>
-        </li>
-        
-        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
-            <a href="/categories/" title="分类" target="_blank" rel="noopener">分类</a>
-        </li>
-        
-        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
-            <a href="/tags/" title="标签" target="_blank" rel="noopener">标签</a>
-        </li>
-        
-        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
-            <a href="/archives/" title="目录" target="_blank" rel="noopener">目录</a>
-        </li>
-        
-    </ul>
-	<span class="target"></span>
-	<center>
-	<div class="hitokoto">
-		<span class="typed" id="hitokoto" data-st="false"></span>
-	</div>
-	</center>
-	
-	<p class="footerlinks">
-		<a href="#" class="iconfont icon-null"></a>
-		
-            <a href="/LaiAng8086" title="github" class="iconfont icon-github" target="_blank" rel="noopener"> </a>
-        
-            <a href="/LaiAng8086" title="wechat" class="iconfont icon-wechat" target="_blank" rel="noopener"> </a>
-        
-            <a href="mailto:lai_ang_gt@126.com" title="email" class="iconfont icon-email" target="_blank" rel="noopener"> </a>
-        
-		<a href="#" class="iconfont icon-null"></a>
-	</p>
-	
-    <p id="copyright">
-        &copy; 2021 John Doe.
-        <span> | </span>Powered by <a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        <span> | </span>Theme <a href="https://github.com/Fechin/hexo-theme-diaspora" title="Diaspora" target="_blank" rel="noopener">Diaspora</a> by Fechin
-		<span> | </span>Modified by LaiAng80586
-		
-    </p>
-</div>
-
-<div id="container">
-    
-<div id="screen">
-    <div id="mark">
-        <div class="layer" data-depth="0.4">
-            <img src="/img/welcome_cover.jpg" id="cover" crossorigin="anonymous" width="1920" height="1080">
-        </div>
-    </div>
-    <div id="vibrant">
-        <svg viewBox="0 0 2880 1620" height="100%" preserveAspectRatio="xMaxYMax slice">
-            <polygon opacity="0.7" points="2000,1620 0,1620 0,0 600,0 "/>
-        </svg>
-        <div></div>
-    </div>
-    <div id="header">
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://laiang8086.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">2021牛客暑期多校训练营6 C Delete Edges</h3>
+    <div class="social">
         <div>
-            <a class="image-logo" href="/"></a>
-			
-			<div class="iconfont icon-search switchsearch" href="/search/" title="搜索"></div>
-			
-            <div class="iconfont icon-menu switchmenu"></div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
         </div>
     </div>
-    
-    <div id="post0">
-        <p>八月 03, 2021</p>
-        <h2><a href="/2021/08/03/nowcoder6c/" title="2021牛客暑期多校训练营6 C Delete Edges" class="posttitle">2021牛客暑期多校训练营6 C Delete Edges</a></h2>
-        <p class="summary">题目概述给出一个$n$个点的完全图，删除一些三元环使得剩下的边数少于$n$条。
-数据范围
-3 \leq n \le...</p>
-    </div>
-    
+    <div class="scrollbar"></div>
 </div>
 
-    <div id="primary">
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">2021牛客暑期多校训练营6 C Delete Edges</h1>
+        <div class="stuff">
+            <span>八月 03, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E4%B8%8D%E5%AE%9A%E6%96%B9%E7%A8%8B/" rel="tag">不定方程</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9E%84%E9%80%A0/" rel="tag">构造</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E9%80%92%E6%8E%A8%E4%B8%8E%E5%8A%A8%E5%BD%92/" rel="tag">递推与动归</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>给出一个$n$个点的完全图，删除一些三元环使得剩下的边数少于$n$条。</p>
+<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
+3 \leq n \leq 2000</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>这个题实在是一个构造题。说来惭愧，并不知道这个转化为何是正确的。值得记得就是递推的证明方法。</p>
+<p>根据题解，问题转化为</p>
+<p><strong>求$1\leq x&lt;y&lt;z\leq n$范围内满足$x+y+z\equiv 0(mod\;n)$​的方案组数。</strong></p>
+<p>记答案为$f(n)$，下面证明该式具有递推$f(n+3)=f(n)+n$</p>
+<p>证明的思路在于考虑答案的来源：$x+y+z=n$和$x+y+z=2n$两种情况。假设前一种情况的答案贡献为$ans1$，第二种情况对答案的贡献为$ans2$。</p>
+<p>下面考虑将$n$时的$ans1,ans2$递推到$n+3$时的情况。</p>
+<script type="math/tex; mode=display">
+1 \leq x<y<z \leq n,&x+y+z=n:ans1\\
+&(x+1)+(y+1)+(z+1)=n+3\\
+2 \leq x<y<z\leq n+1,&x+y+z=n:ans1\\</script><p>当$z=n+2,n+3$时无解，当$x=1$时，满足$y+z=n+2$新增$[\frac{n-1}{2}]$组解，故得到</p>
+<script type="math/tex; mode=display">
+1 \leq x<y<z \leq n+3,x+y+z=n:ans1+\lfloor \frac{n-1}{2} \rfloor</script><p>再考虑$ans2的递推。</p>
+<script type="math/tex; mode=display">
+1 \leq x<y<z \leq n,&x+y+z=2n:ans2\\
+&(x+2)+(y+2)+(z+2)=2(n+3)\\
+3 \leq x<y<z \leq n+2,&x+y+z=2(n+3):ans2\\</script><p>当$x=1,2$时无解，当$z=n+3$时，$x+y=n+3$，有$\lfloor \frac{n+2}{2} \rfloor$组解。</p>
+<p>故得到</p>
+<script type="math/tex; mode=display">
+1 \leq x<y<z \leq n+3,x+y+z=2n:ans2+\lfloor \frac{n+2}{2} \rfloor</script><p>因此总共新增$\lfloor\frac{n-1}{2}\rfloor+\lfloor\frac{n+2}{2}\rfloor=n$组解。递推由此得证。</p>
+<p>再通过递推式结合$f(3)=1,f(4)=1,f(5)=2$初始值，得到通项公式：</p>
+<script type="math/tex; mode=display">
+ans[n]=
+\begin{cases}
+\frac{n^2-3n+6}{6},3|n\\
+\frac{n^2-3n+2}{6},3\nmid n
+\end{cases}</script>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                </ul>
+            
+        </div>
         
-<div class="post">
-    <a href="/2021/08/03/cf1549e/" title="Codeforces Round 736 (Div. 2) E - The Three Little Pigs">
-        <img src="https://tva3.sinaimg.cn/large/0066rFaply8gt2owqn2bxj31hc0u0q7n.jpg" class="cover" width="680" height="440">
-    </a>
-    <div class="else">
-        <p>八月 03, 2021</p>
-        <h3><a href="/2021/08/03/cf1549e/" title="Codeforces Round 736 (Div. 2) E - The Three Little Pigs" class="posttitle">Codeforces Round 736 (Div. 2) E - The Three Little Pigs</a></h3>
-        <p>题目概述对于一个$n$,给定$q$​​次询问,回答
-
-\sum_{i=1}^{n}C_{3i}^{x}数据范围
-1 \leq n \leq 10^6\\
-...</p>
-    </div>
-</div>
-
-
-<div class="post">
-    <a href="/2021/07/30/gym101201B/" title="2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1) Buggy Robot">
-        <img src="https://tva1.sinaimg.cn/large/9bd9b167gy1g2qk5qh4flj21hc0u017w.jpg" class="cover" width="680" height="440">
-    </a>
-    <div class="else">
-        <p>七月 30, 2021</p>
-        <h3><a href="/2021/07/30/gym101201B/" title="2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1) Buggy Robot" class="posttitle">2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1) Buggy Robot</a></h3>
-        <p>题目概述有个机器人在一个网格中靠执行一串LRUD指令行动，但这串指令有问题，并不能保证机器人一定能从起点走到终点。当机器人执行一条指令可能出界或遇到障碍，...</p>
-    </div>
-</div>
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
 
 
     </div>
     
 </div>
-<div id="preview"></div>
 
 
-
+    </div>
+</div>
 </body>
 
 
