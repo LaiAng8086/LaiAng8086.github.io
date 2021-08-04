@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2021牛客暑期多校训练营5 Cheating and Stealing - LaiAng80586的小屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="LaiAng80586,"> 
+    <meta name="description" content="题目描述甲乙两个人比赛乒乓，已知每一个回合的胜负的描述序列$S$，现在设$f_i(S)$表示当局点分为$i$时甲赢得比赛的次数，求：
+
+\sum_{i=1}^n f_i(S)\cdot (|S|+1,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="LaiAng80586的小屋" type="application/atom+xml"> 
+    
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">LaiAng80586的小屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://laiang8086.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">2021牛客暑期多校训练营5 Cheating and Stealing</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">2021牛客暑期多校训练营5 Cheating and Stealing</h1>
+        <div class="stuff">
+            <span>八月 04, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="tag">前缀和</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>甲乙两个人比赛乒乓，已知每一个<strong>回合</strong>的胜负的描述序列$S$，现在设$f_i(S)$表示当局点分为$i$时甲赢得比赛的次数，求：</p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^n f_i(S)\cdot (|S|+1)^{i-1}</script><p>其中赢得比赛是指该人已经超过局点分且超过对手至少两分。一局比赛结束后，下一局比赛的情形继续沿回合序列进行。</p>
+<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
+1 \leq |S| \leq 10^6</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>这个题最朴素的思路就是针对一个局点分来分析赢球的局数。其实这样也是可行的，因为<strong>分析复杂度</strong>，假设当前分析的局点分是$i$​，那么场次不会超过$\frac{|S|}{i}$​,因此如果我们能够在$O(1)$​的复杂度内完成下一局的分析，那么总复杂度就是$O(|S|log|S|)$</p>
+<p>下面考虑怎么来$O(1)$​知道每一局在序列中的起始和终止位置。首先我们用前缀和$sumW,sumL$​来维护到序列某个位置$i$​​,两人分别能赢多少回合，同时记录下来每个人赢第几个回合是对应序列中的哪个位置$posW,posL$​​。然后我们枚举下一个局点分到底由谁来得（这里见文末代码即可知）。</p>
+<p>这里需要<strong>加速</strong>的地方在于<strong>两人交替赢球</strong>使得没有人能够超过对方两分的情形。这种局面可以预处理，即$tiebreak[i]=(s[i]==s[i+1]) ?i+1:tiebreak[i+2]$.</p>
+<p>因此由上述两点进行递推判定即可。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> min(a,b) (a)&lt;(b) ? (a) : (b)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> max(a,b) (a)&gt;(b) ? (a) : (b)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">mread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ret=<span class="number">0</span>,f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">char</span> c=<span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(c&lt;<span class="string">&#x27;0&#x27;</span> || c&gt;<span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(c==<span class="string">&#x27;-&#x27;</span>)f=<span class="number">-1</span>;</span><br><span class="line">		c=<span class="built_in">getchar</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		ret=ret*<span class="number">10</span>+c-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">		c=<span class="built_in">getchar</span>();</span><br><span class="line">	&#125; <span class="keyword">while</span>(<span class="string">&#x27;0&#x27;</span>&lt;=c &amp;&amp; c&lt;=<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">	<span class="keyword">return</span> ret*f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 1001000</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MOD = <span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">char</span> s[MAXN];</span><br><span class="line"><span class="keyword">int</span> sumL[MAXN],sumW[MAXN];</span><br><span class="line"><span class="keyword">int</span> posW[MAXN],posL[MAXN];</span><br><span class="line"><span class="function">LL <span class="title">quick_pow</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">	LL ret=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(b) &#123;</span><br><span class="line">		<span class="keyword">if</span>(b &amp; <span class="number">1</span>)ret=ret*a%MOD;</span><br><span class="line">		a=<span class="number">1ll</span>*a*a%MOD;</span><br><span class="line">		b&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> tiebreak[MAXN];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	LL ans=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> k;</span><br><span class="line">	n=<span class="built_in">mread</span>();</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,s+<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++) &#123;</span><br><span class="line">		sumL[i]=sumL[i<span class="number">-1</span>];</span><br><span class="line">		sumW[i]=sumW[i<span class="number">-1</span>];</span><br><span class="line">		<span class="keyword">if</span>(s[i]==<span class="string">&#x27;W&#x27;</span>) &#123;</span><br><span class="line">			sumW[i]++;</span><br><span class="line">			posW[sumW[i]]=i;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			sumL[i]++;</span><br><span class="line">			posL[sumL[i]]=i;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> now,res,nxt;</span><br><span class="line">	<span class="keyword">int</span> winL,winW;</span><br><span class="line">	tiebreak[n+<span class="number">1</span>]=tiebreak[n]=n+<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=n<span class="number">-1</span>;i&gt;=<span class="number">1</span>;i--)</span><br><span class="line">		tiebreak[i]=(s[i]==s[i+<span class="number">1</span>]) ? i+<span class="number">1</span> : tiebreak[i+<span class="number">2</span>];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++) &#123;</span><br><span class="line">		now=<span class="number">0</span>;</span><br><span class="line">		res=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">while</span>(now&lt;n) &#123;</span><br><span class="line">			nxt=n+<span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span>(sumW[now]+i &lt;= sumW[n])nxt=<span class="built_in">min</span>(nxt,posW[sumW[now]+i]);</span><br><span class="line">			<span class="keyword">if</span>(sumL[now]+i &lt;= sumL[n])nxt=<span class="built_in">min</span>(nxt,posL[sumL[now]+i]);</span><br><span class="line">			<span class="keyword">if</span>(nxt&gt;n)<span class="keyword">break</span>;</span><br><span class="line">			</span><br><span class="line">			winL=sumL[nxt] - sumL[now];</span><br><span class="line">			winW=sumW[nxt] - sumW[now];</span><br><span class="line">			<span class="keyword">if</span>(<span class="built_in">abs</span>(winL-winW)==<span class="number">1</span>)nxt=tiebreak[nxt];</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span>(nxt&gt;n)<span class="keyword">break</span>;</span><br><span class="line">			winL=sumL[nxt] - sumL[now];</span><br><span class="line">			winW=sumW[nxt] - sumW[now];</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span>(winW&gt;winL)res++;</span><br><span class="line">			now=nxt; </span><br><span class="line"><span class="comment">//			printf(&quot;%d\n&quot;,now);</span></span><br><span class="line">		&#125;</span><br><span class="line">		ans=(ans+<span class="number">1ll</span>*res*<span class="built_in">quick_pow</span>(n+<span class="number">1</span>,i<span class="number">-1</span>)%MOD)%MOD;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>,ans);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>
