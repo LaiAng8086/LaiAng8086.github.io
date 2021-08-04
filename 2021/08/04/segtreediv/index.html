@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>（旧文重发）线段树分治 - LaiAng80586的小屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="LaiAng80586,"> 
+    <meta name="description" content="线段树分治20171202上课时的讲述​    以时间为顺序建立一颗线段树，每一个节点开一个$vector$，把一个修改按照其作用区间，$push\;back$到所有“定位”节点上。那么对于一个询问,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="LaiAng80586的小屋" type="application/atom+xml"> 
+    
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">LaiAng80586的小屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://laiang8086.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">（旧文重发）线段树分治</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">（旧文重发）线段树分治</h1>
+        <div class="stuff">
+            <span>八月 04, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/" rel="tag">线段树分治</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="线段树分治"><a href="#线段树分治" class="headerlink" title="线段树分治"></a>线段树分治</h1><h3 id="20171202上课时的讲述"><a href="#20171202上课时的讲述" class="headerlink" title="20171202上课时的讲述"></a>20171202上课时的讲述</h3><p>​    以时间为顺序建立一颗线段树，每一个节点开一个$vector$，把一个修改按照其作用区间，$push\;back$到所有“定位”节点上。那么<strong>对于一个询问而言，它所受影响的所有修改一定是从线段树根节点到询问的这篇叶子的所有途径节点</strong>。</p>
+<p>​    于是我们对于每一个节点上的修改信息进行整合，再一个一个贡献。如此一来，无论添加还是修改，都只是对应一段作用区间而已。所以最后只要在线段树上$DFS$一次即可.</p>
+<p>​    如果有排序操作，最好在区间外面实现有序（排好序）</p>
+<p>​    其实线段树分治重要在思想，而是不是以时间为“轴”是不一定，这个应该因题目而灵活选取。</p>
+<h4 id="例题一-YZOJ-2758"><a href="#例题一-YZOJ-2758" class="headerlink" title="例题一    YZOJ  2758"></a>例题一    YZOJ  2758</h4><h5 id="【题目描述】"><a href="#【题目描述】" class="headerlink" title="【题目描述】"></a>【题目描述】</h5><p>给定一颗树，树的每一条边上有权值上下界（即通过时使用的权值必须在这个上下界的闭区间内，否则无法通过），现在有若干询问，每一个询问给出一个权值$val$,对于每一个询问求一个<strong>最长</strong>的符合上下界要求的简单路径，输出路径的长度。</p>
+<h5 id="【分析与解】"><a href="#【分析与解】" class="headerlink" title="【分析与解】"></a>【分析与解】</h5><p>​    我们按照权值作为线段树的“轴”，那么每一个询问对应到线段树的一个叶节点，而修改操作为线段树的一些区间。于是我们可以先把所有的修改和询问在相应的节点上打标记（$vector$中$push\;back$）.</p>
+<p>​    关于维护当前连边的最长链。我们用并查集来维护这个关系。但是我们注意到，每一条边只能在回答当前的节点时被使用。所以我们要对于并查集每一步操作记录信息（之前的$fa$，更改后的$fa$诸如此类的），在遍历完整个线段树子树后，进行栈序撤销。</p>
+<h3 id="练习一-FJOI-2015-火星商店问题"><a href="#练习一-FJOI-2015-火星商店问题" class="headerlink" title="练习一 FJOI 2015 火星商店问题"></a>练习一 FJOI 2015 火星商店问题</h3><h4 id="【题目描述】-1"><a href="#【题目描述】-1" class="headerlink" title="【题目描述】"></a>【题目描述】</h4><p>现在要求实现两种事件：<br>       ① $0\; s \;v$​​ 表示第$s$​​个盒子添加了一种价格为$v$​​商品</p>
+<p>② $1\; L\; R\; x\; d $表示询问在前后的$d$天内，$[L,R]$的盒子的所有商品中，其价格异或$x$的最大值</p>
+<p>每一天先有$0$事件，再有$1$事件</p>
+<h4 id="【分析与解】-1"><a href="#【分析与解】-1" class="headerlink" title="【分析与解】"></a>【分析与解】</h4><p>​    通过“可持久化Trie”树的学习，我们知道关于异或最大值这件事可以通过查询$root[L-1]$到$root[R]$中的与$x$的二进制相异的最大的那个“单词”来得到。</p>
+<p>​    但是天数是一个范围，也就是说我们相当于树的个数可能是二维的。</p>
+<p>​    线段树分治要求询问转化成若干线段树式节点的查询，修改也是如此。</p>
+<p>​    于是我们把时间作为线段树的下标“轴”（外部实现），把可持久化$Trie$作为内部实现。</p>
+<p>​    对于每一个线段树节点，我们维护两个vector，分别表示<strong>“途径”该节点的所有修改操作的编号</strong>，和<strong>“定位”该节点的所有查询的操作的编号</strong>。</p>
+<p>​    在$main$函数中，我们把修改和查询操作依次添加到线段树的相应节点的$vector$中。<strong>注意，修改操作是所有的途径节点，查询操作仅仅在定位节点中添加即可</strong>。在线段树分治函数中，我们先访问大区间，再访问小区间（其实这道题怎么都行，因为所有的节点是独立贡献，顺序无所谓（方法一），但是遇到$DFS$序之类的问题，就必须这么做了（方法二））。然后在每一个节点，先处理修改（依次添加$Trie$树信息），再处理询问，更新答案。</p>
+<p>​    复杂度为$O(klog_n)$ 其中$k$是处理每一个修改的复杂度，大概也是什么的$log$。</p>
+<h3 id="练习二-TJOI2018-数学计算"><a href="#练习二-TJOI2018-数学计算" class="headerlink" title="练习二 TJOI2018 数学计算"></a>练习二 TJOI2018 数学计算</h3><h4 id="【题目描述】-2"><a href="#【题目描述】-2" class="headerlink" title="【题目描述】"></a>【题目描述】</h4><p>给定$mod$，要求对每一个时刻支持两种操作：</p>
+<p>① $1 \;m$ ,表示把上一个时刻的数乘上$m$，并输出其对$mod$取模的值</p>
+<p>② $2 \;pos$，表示把上一个时刻的数除以第$pos$个时刻乘上的数（保证$pos$时刻执行的1操作），并输出其对$mod$取模的值</p>
+<p>数据范围： $Q&lt;=10^5 \; m&lt;=10^9$</p>
+<h4 id="【分析与解】-2"><a href="#【分析与解】-2" class="headerlink" title="【分析与解】"></a>【分析与解】</h4><p>​    一定要明白删除时怎么被转换的！就是添加的某个东西的作用域被削减了。</p>
+<p>​    所以这道题就是以时间为轴建立线段树，修改对应一个区间，右端点如果有2操作，就是那个时刻-1，否则就是最终时刻。询问就是叶子，然后进行线段树分治即可。</p>
+<h3 id="练习三-BZOJ-4025-二分图"><a href="#练习三-BZOJ-4025-二分图" class="headerlink" title="练习三 BZOJ 4025 二分图"></a>练习三 BZOJ 4025 二分图</h3><h4 id="【题目描述】-3"><a href="#【题目描述】-3" class="headerlink" title="【题目描述】"></a>【题目描述】</h4><p>给定一张图$n$个节点$m$条边，每一条边的出现时间为一个区间，问每一段时间是否构成一张二分图。</p>
+<p>数据范围：$n&lt;=100000，m&lt;=200000，T&lt;=100000，1&lt;=u,v&lt;=n，0&lt;=start&lt;=end&lt;=T $</p>
+<h4 id="【分析与解】-3"><a href="#【分析与解】-3" class="headerlink" title="【分析与解】"></a>【分析与解】</h4><p>二分图有一个重要的性质：</p>
+<blockquote>
+<p>一个图是二分图，当且仅当图中不包含有长度为奇数的环</p>
+</blockquote>
+<p>我们按照时间为轴建立线段树，询问为每一个叶子节点，修改为一段区间。那么对于每一次新加入一条边，我们考虑<strong>因为加入了这条边，所造成一个环产生，而这个环是不是奇环</strong>。</p>
+<p>我们用并查集来维护边的连通性，由于我们要求两个点的链长，所以不能进行路径压缩，只能进行启发式合并。也就是维护两个并查集的$rank$，小的并入大的，然后求链长就是暴力跳到祖先。</p>
+<p>由于我们关心链长的奇偶性，所以我们可以在暴力跳的时候每一次异或连向父亲的链的权值，最后两个值异或再异或上1（表示新添加一条链），如果这个值是偶数，那就是合法的，否则是非法的。</p>
+<p>对于一个线段树上节点而言，由于是进行完所有修改再询问，如果一旦某一步发生了非法，则整个区间的询问全部是非法。这种情况下就不必再向下递归了。</p>
+<p>然后向下递归执行，到叶节点如果没有被判定非法，就是合法的。</p>
+<p>但是这里要支持<strong>栈序撤销</strong></p>
+<p>乍一看要可持久化，其实不然。我们只需要记录两种事件：一种是$rank$数组的变更，一种是父亲的变更。</p>
+<p>由于我们在并查集合并时一定是祖先合并，所以撤销也就是$fa[x]=x$，在数组中记录更改的下标即可。对于rank，由于更改就是$+1$，所以只需要记录下标，回溯时-1即可。</p>
+<p>如何区分两种操作？只需要令一个是正的，一个是负的（妙）。</p>
+<p>复杂度是$O(mlogT)$</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>
