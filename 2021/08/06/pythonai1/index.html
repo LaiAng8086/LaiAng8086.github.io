@@ -5,12 +5,26 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LaiAng80586的小屋</title>
+    <title>Python与深度学习笔记 1 - LaiAng80586的小屋</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="LaiAng80586,"> 
-    
+    <meta name="description" content="实时观察GPU运行情况1watch -n 1 nvidia-smi
+机器学习问题的分类监督学习、无监督学习、自监督学习（自己会知道标签）、强化学习。
+
+
+
+
+问题
+
+损失函数
+评估指标
+
+
+
+
+分类,"> 
     <meta name="author" content="John Doe"> 
     <link rel="alternative" href="atom.xml" title="LaiAng80586的小屋" type="application/atom+xml"> 
     
@@ -23,27 +37,104 @@
 <body class="loading">
     <span id="config-title" style="display:none">LaiAng80586的小屋</span>
     <div id="loader"></div>
-    <div id="single" class="page">
-    <div id="top">
-        <a class="iconfont icon-left image-icon" href="javascript:history.back()"></a>
-    </div>
-    <div class="section">
-        <div class="article">
-            <div class="main">
-                <div class="content">
-                
-                    <div class="set">
-  <h2>分类</h2>
-  <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm-Competitions/">Algorithm Competitions</a><span class="category-list-count">27</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Deep-Learning/">Deep Learning</a><span class="category-list-count">1</span></li></ul>
-</div>
-
-                
-                </div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://laiang8086.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">Python与深度学习笔记 1</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
             </div>
+            <div id="qr"></div>
         </div>
     </div>
+    <div class="scrollbar"></div>
 </div>
 
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Python与深度学习笔记 1</h1>
+        <div class="stuff">
+            <span>八月 06, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Deep-Learning/" rel="tag">Deep Learning</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="实时观察GPU运行情况"><a href="#实时观察GPU运行情况" class="headerlink" title="实时观察GPU运行情况"></a>实时观察GPU运行情况</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n 1 nvidia-smi</span><br></pre></td></tr></table></figure>
+<h2 id="机器学习问题的分类"><a href="#机器学习问题的分类" class="headerlink" title="机器学习问题的分类"></a>机器学习问题的分类</h2><p>监督学习、无监督学习、自监督学习（自己会知道标签）、强化学习。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th></th>
+<th>损失函数</th>
+<th>评估指标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分类</td>
+<td>二分类</td>
+<td>binary_crossentropy</td>
+<td>精度</td>
+</tr>
+<tr>
+<td></td>
+<td>多分类</td>
+<td>categorical_crossentropy</td>
+<td>精度</td>
+</tr>
+<tr>
+<td>回归</td>
+<td></td>
+<td>MSE</td>
+<td>MAE平均绝对误差</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>基本问题：降低过拟合，评估学习模型</p>
+<h2 id="网络的验证"><a href="#网络的验证" class="headerlink" title="网络的验证"></a>网络的验证</h2><p>留出验证</p>
+<p>K折验证：均分训练样本，用(k-1)个区域训练，剩下一个区域验证，轮番进行</p>
+<h2 id="网络的训练参数"><a href="#网络的训练参数" class="headerlink" title="网络的训练参数"></a>网络的训练参数</h2><p>训练轮数，层数，etc</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
 </body>
 
 
