@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2016-2017 ACM-ICPC, Central Europe Regional Contest (CERC 16) H - Hangar Hurdles - LaiAng80586的小屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="LaiAng80586,"> 
+    <meta name="description" content="题目概述给一个由.和#组成的地图。现在要回答若干询问,从$(x_1,y_1)$​到$(x_2,y_2)$能够滑动的最大正方形的边长为多少。所谓能滑动就是路经的各个方格所能扩展的不碰到#的最大正方形。,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="LaiAng80586的小屋" type="application/atom+xml"> 
+    
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">LaiAng80586的小屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://laiang8086.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">2016-2017 ACM-ICPC, Central Europe Regional Contest (CERC 16) H - Hangar Hurdles</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">2016-2017 ACM-ICPC, Central Europe Regional Contest (CERC 16) H - Hangar Hurdles</h1>
+        <div class="stuff">
+            <span>八月 06, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%80%8D%E5%A2%9E/" rel="tag">倍增</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86%E9%87%8D%E6%9E%84%E6%A0%91/" rel="tag">并查集重构树</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>给一个由<code>.</code>和<code>#</code>组成的地图。现在要回答若干询问,从$(x_1,y_1)$​到$(x_2,y_2)$能够滑动的最大正方形的边长为多少。所谓能滑动就是路经的各个方格所能扩展的不碰到<code>#</code>的最大正方形。</p>
+<script type="math/tex; mode=display">
+1 \leq n \leq 1000\\
+1 \leq q \leq 3 \cdot 10^5</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>先说说考场上那种看起来很多，但种种原因不能通过的解法。</p>
+<p>首先我们可以预处理出每个点能够允许的最大正方形。这里先说一下还是应该枚举半边长以保证正方形边长是奇数。然后我们把所有的节点从大到小依次加入到图中，用并查集来维护联通关系。把所有的询问离线，然后取询问的两个点的对应最大正方形边长的较小值来排序，从大到小回答询问。然后从大到小遍历边长，处理询问。如果某个询问不能在它对应的较小值时被处理，就把它放到一个队列里。这个队列也不断地取队首尝试回答询问。最后再按照原顺序输出即可。</p>
+<p>这个解法的RE原因只不过是局部变量没赋初值，但WA之后就很难调了。理论上分析它的漏洞在于可能一些询问会反反复复出入队列，造成时间的问题。</p>
+<p>下面来说正解。</p>
+<p>其实基本要点已经体现了。就是我们要<strong>控制节点之间的连通性，是从大到小的添加边</strong>。而这正是我们<strong>用Kruskal做一棵最大生成树</strong>的流程。所以我们把每个点向四周能连边的连边，边的权值就是两个点最大正方形边长的最小值，然后跑一下Kruskal得到生成树。那么处理询问，就是看这个重构树上对应路径的最小边权值。求这个东西就很经典，相当于边倍增找LCA，边更新答案。</p>
+<p>由于<strong>可能有许多的树（森林）</strong>，所以树链剖分+LCA就不适用了，还是得用倍增。</p>
+<p>具体细节见代码。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> min(a,b) (a) &lt; (b) ? (a) : (b)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> max(a,b) (a) &gt; (b) ? (a) : (b)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 2010</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> fir first</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> sec second</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; pii;</span><br><span class="line"><span class="keyword">int</span> n,q;</span><br><span class="line"><span class="keyword">char</span> s[MAXN][MAXN];</span><br><span class="line"><span class="keyword">int</span> sum[MAXN][MAXN],mmax[MAXN][MAXN];</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">check2</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(x&lt;<span class="number">1</span> || x&gt;n || y&lt;<span class="number">1</span> || y&gt;n || s[x][y]==<span class="string">&#x27;#&#x27;</span>)<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> t)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x1,y1,x2,y2;</span><br><span class="line">	x2=x+t<span class="number">-1</span>,y2=y+t<span class="number">-1</span>;</span><br><span class="line">	x1=x-t+<span class="number">1</span>,y1=y-t+<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(!<span class="built_in">check2</span>(x1,y1) || !<span class="built_in">check2</span>(x2,y2))<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">return</span> (sum[x2][y2] - sum[x2][y1<span class="number">-1</span>] - sum[x1<span class="number">-1</span>][y2] + sum[x1<span class="number">-1</span>][y1<span class="number">-1</span>]==<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN2 1001000</span></span><br><span class="line"><span class="keyword">namespace</span> Tree &#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">		<span class="keyword">int</span> v,len;</span><br><span class="line">		node *nnext;</span><br><span class="line">	&#125; pool[MAXN2&lt;&lt;<span class="number">2</span>],*h[MAXN2&lt;&lt;<span class="number">2</span>];</span><br><span class="line">	<span class="keyword">int</span> cnt=<span class="number">-1</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v,<span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">		node *p=&amp;pool[++cnt];</span><br><span class="line">		p-&gt;v=v,p-&gt;len=len,p-&gt;nnext=h[u],h[u]=p;</span><br><span class="line">		node *q=&amp;pool[++cnt];</span><br><span class="line">		q-&gt;v=u,q-&gt;len=len,q-&gt;nnext=h[v],h[v]=q;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> f[MAXN2][<span class="number">21</span>],anc[MAXN2][<span class="number">21</span>];</span><br><span class="line">	<span class="keyword">int</span> dep[MAXN2];</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> fa)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> v,mid;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=<span class="number">20</span>; i++) &#123;</span><br><span class="line">			mid=anc[u][i<span class="number">-1</span>];</span><br><span class="line">			anc[u][i]=anc[mid][i<span class="number">-1</span>];</span><br><span class="line">			f[u][i]=<span class="built_in">min</span>(f[u][i<span class="number">-1</span>],f[mid][i<span class="number">-1</span>]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(node *p=h[u]; p; p=p-&gt;nnext) &#123;</span><br><span class="line">			v=p-&gt;v;</span><br><span class="line">			<span class="keyword">if</span>(v!=fa) &#123;</span><br><span class="line">				dep[v]=dep[u]+<span class="number">1</span>;</span><br><span class="line">				f[v][<span class="number">0</span>]=p-&gt;len;</span><br><span class="line">				anc[v][<span class="number">0</span>]=u;</span><br><span class="line">				<span class="built_in">dfs</span>(v,u);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">get_ans</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> ans=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line">		<span class="keyword">if</span>(dep[x] &lt; dep[y])<span class="built_in">swap</span>(x,y);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">20</span>; i&gt;=<span class="number">0</span>; i--) <span class="comment">//跳到同一起点</span></span><br><span class="line">			<span class="keyword">if</span>(dep[anc[x][i]] &gt;= dep[y]) &#123;  <span class="comment">//!等号</span></span><br><span class="line">				ans=<span class="built_in">min</span>(ans,f[x][i]);</span><br><span class="line">				x=anc[x][i];</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">if</span>(x==y) <span class="keyword">return</span> ans;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">20</span>; i&gt;=<span class="number">0</span>; i--)</span><br><span class="line">			<span class="keyword">if</span>(anc[x][i]!=anc[y][i]) &#123;</span><br><span class="line">				ans=<span class="built_in">min</span>(ans,f[x][i]);</span><br><span class="line">				ans=<span class="built_in">min</span>(ans,f[y][i]);</span><br><span class="line">				x=anc[x][i];</span><br><span class="line">				y=anc[y][i];</span><br><span class="line">			&#125;</span><br><span class="line">		ans=<span class="built_in">min</span>(ans,f[x][<span class="number">0</span>]);</span><br><span class="line">		ans=<span class="built_in">min</span>(ans,f[y][<span class="number">0</span>]);</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">namespace</span> Kru &#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">edge</span> &#123;</span></span><br><span class="line">		<span class="keyword">int</span> u,v,len;</span><br><span class="line">	&#125; e[MAXN2&lt;&lt;<span class="number">2</span>];</span><br><span class="line">	<span class="keyword">int</span> ecnt;</span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(edge a,edge b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> a.len &gt; b.len;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> p[MAXN2];</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">ffind</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(p[x]==x)<span class="keyword">return</span> x;</span><br><span class="line">		<span class="keyword">return</span> p[x]=<span class="built_in">ffind</span>(p[x]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">kruskal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> fx,fy;</span><br><span class="line">		<span class="built_in">sort</span>(e+<span class="number">1</span>,e+ecnt+<span class="number">1</span>,cmp);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; j++)</span><br><span class="line">				p[(i<span class="number">-1</span>)*n+j]=(i<span class="number">-1</span>)*n+j;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=ecnt; i++) &#123;</span><br><span class="line">			fx=<span class="built_in">ffind</span>(e[i].u),fy=<span class="built_in">ffind</span>(e[i].v);</span><br><span class="line">			<span class="keyword">if</span>(fx!=fy) &#123;</span><br><span class="line">				p[fy]=fx;</span><br><span class="line">				Tree::<span class="built_in">addedge</span>(e[i].u,e[i].v,e[i].len);  <span class="comment">//并不能用并查集的标号来</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> lef,rig,mid;  <span class="comment">//局部变量的初始化？</span></span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,s[i]+<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; j++)</span><br><span class="line">			sum[i][j]=sum[i][j<span class="number">-1</span>]+((s[i][j]==<span class="string">&#x27;#&#x27;</span>) ? <span class="number">1</span> : <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; j++)</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">			sum[i][j]+=sum[i<span class="number">-1</span>][j];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; j++) &#123;</span><br><span class="line">			<span class="keyword">if</span>(s[i][j]==<span class="string">&#x27;#&#x27;</span>)<span class="keyword">continue</span>;</span><br><span class="line">			lef=<span class="number">1</span>,rig=n;</span><br><span class="line">			<span class="keyword">while</span>(lef&lt;=rig) &#123;</span><br><span class="line">				mid=(lef+rig)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">				<span class="keyword">if</span>(<span class="built_in">check</span>(i,j,mid)) &#123;</span><br><span class="line">					mmax[i][j]=<span class="built_in">max</span>(mmax[i][j],<span class="number">2</span>*(mid<span class="number">-1</span>)+<span class="number">1</span>);</span><br><span class="line">					lef=mid+<span class="number">1</span>;</span><br><span class="line">				&#125; <span class="keyword">else</span> rig=mid<span class="number">-1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> dx[<span class="number">2</span>]= &#123;<span class="number">1</span>,<span class="number">0</span>&#125;,dy[<span class="number">2</span>]= &#123;<span class="number">0</span>,<span class="number">1</span>&#125;;</span><br><span class="line">	<span class="keyword">int</span> nx,ny;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; j++) &#123;</span><br><span class="line">			<span class="keyword">if</span>(s[i][j]==<span class="string">&#x27;#&#x27;</span>)<span class="keyword">continue</span>;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> l=<span class="number">0</span>; l&lt;<span class="number">2</span>; l++) &#123;</span><br><span class="line">				nx=i+dx[l],ny=j+dy[l];</span><br><span class="line">				<span class="keyword">if</span>(<span class="built_in">check2</span>(nx,ny))</span><br><span class="line">					Kru::e[++Kru::ecnt]= &#123;(i<span class="number">-1</span>)*n+j,(nx<span class="number">-1</span>)*n+ny,<span class="built_in">min</span>(mmax[i][j],mmax[nx][ny])&#125;;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	Kru::<span class="built_in">kruskal</span>();</span><br><span class="line">	<span class="built_in">memset</span>(Tree::f[<span class="number">0</span>],<span class="number">63</span>,<span class="built_in"><span class="keyword">sizeof</span></span>(Tree::f[<span class="number">0</span>]));<span class="comment">//!</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="comment">//仍应该考虑森林情况 </span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(s[i][j]==<span class="string">&#x27;#&#x27;</span>)<span class="keyword">continue</span>;</span><br><span class="line">			<span class="keyword">if</span>(!Tree::dep[(i<span class="number">-1</span>)*n+j])</span><br><span class="line">			&#123;</span><br><span class="line">				Tree::dep[(i<span class="number">-1</span>)*n+j]=<span class="number">1</span>;</span><br><span class="line">				Tree::<span class="built_in">dfs</span>((i<span class="number">-1</span>)*n+j,<span class="number">0</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">int</span> q,x1,y1,x2,y2;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;q);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=q; i++) &#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d%d&quot;</span>,&amp;x1,&amp;y1,&amp;x2,&amp;y2);</span><br><span class="line">		<span class="keyword">if</span>(Kru::<span class="built_in">ffind</span>((x1<span class="number">-1</span>)*n+y1)!=Kru::<span class="built_in">ffind</span>((x2<span class="number">-1</span>)*n+y2))<span class="built_in">printf</span>(<span class="string">&quot;0\n&quot;</span>);</span><br><span class="line">		<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,Tree::<span class="built_in">get_ans</span>((x1<span class="number">-1</span>)*n+y1,(x2<span class="number">-1</span>)*n+y2));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>
