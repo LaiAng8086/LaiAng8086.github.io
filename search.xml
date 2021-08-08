@@ -1,85 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>2021牛客暑期多校训练营4 B</title>
-    <url>/2021/07/27/2021Nowcoder4A/</url>
-    <content><![CDATA[<h2 id="A-Course"><a href="#A-Course" class="headerlink" title="A Course"></a>A Course</h2><p><strong>生成函数</strong>来计数不同课的选择方案</p>
-<script type="math/tex; mode=display">
-\sum_{i=0}^n x^i = \frac{1}{1-x^n}\\
-f_i(x) =\prod_{i \to j}  f_j...</script><h2 id="B-Sample-Game"><a href="#B-Sample-Game" class="headerlink" title="B Sample Game"></a>B Sample Game</h2><h3 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h3><p>有一个随机数生成器可以生成$[1,n]$中所有数，每个数被生成的概率为$p_i$,该生成器如果生成的数均不小于之前生成的所有数，则继续生成，否则停止。记每一轮一共生成了$x$个数，则收益为$x^2$。问期望收益。</p>
-<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><script type="math/tex; mode=display">
-1 \leq n \leq 100</script><h3 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h3><p>这个题巧妙之处在于对长度发生概率的<strong>设而不求</strong>。</p>
-<p>首先我们根据题意知道除了最后一个数之外，该生成序列是单调不降的。那么一旦我们知道了每一个数被生成了多少次，则生成序列唯一确定。因此我们可以用<strong>生成函数</strong>来描述这个期望。</p>
-<p>注意到对于一种数，它的被生成的无限期望为</p>
-<script type="math/tex; mode=display">
-E(\infty)=\sum_{i=1}^{\infty}p_s^i \cdot x_s^i=\frac{1}{1-p_sx_s}</script><p>因此从<strong>序列长度</strong>为1到长度为无穷的期望组合的描述如下</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-f(x)&=\sum_{i=1}^{\infty} \big(\sum_{s_1+s_2+...+s_n=i} \prod_{k=1}^n p_k^{s_k}) \cdot x^i\\
-&=\sum_{i=1}^{\infty}P(len>i)x^i\\
-&=\prod_{i=1}^n (1+p_ix_i+p_i^2x_i^2+...+p_i^{\infty}x_i^{\infty})\\
-&=\prod_{i=1}^n \frac{1}{1-p_ix}
-\end{aligned}</script><p>但这个描述的目的只是间接的得到概率的关系，我们还是得考虑具体的期望公式，再设法往上面得到的这个$f(x)$上转化。</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-E&=\sum_{i=0}^{\infty}\big(P(len>i) -P(len>i+1))\cdot i^2\\
-&展开后按照P(len>i)合并项得到\\
-&=\sum_{i=0}^{\infty}P(len>i)[(i+1)^2-i^2]\\
-&=\sum_{i=0}^{\infty}P(len>i)(2i+1)\\
-&=2\cdot f'(1)+f(1)
-\end{aligned}</script><p>下面再考虑求$f’(x)$</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-令g_i(x)&=\frac{1}{1-p_ix}\\
-则g_i'(x)&=\frac{p_i}{(1-p_ix)^2}\\
-故f'(x)&=\sum_{i=1}^{n}g_i'(x)\cdot \prod_{j \not=i}g_j(x)\\
-&=f(x)\cdot \sum_{i=1}^n \frac{p_i}{1-p_ix}
-\end{aligned}</script><p>故答案就是</p>
-<script type="math/tex; mode=display">
-\big(1+2\cdot\sum_{i=1}^n \frac{p_i}{1-p_i})f(1)</script>]]></content>
-      <categories>
-        <category>Algorithm Competitions</category>
-      </categories>
-      <tags>
-        <tag>生成函数</tag>
-        <tag>概率期望</tag>
-        <tag>设而不求</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2-SAT 学习</title>
-    <url>/2021/08/06/2sat/</url>
-    <content><![CDATA[<h2 id="构图"><a href="#构图" class="headerlink" title="构图"></a>构图</h2><p>对于变量$x_i$​​​,节点$\lnot i$​​表示$x_i=False$​​,节点$2i$​​表示$i$​​.​</p>
-<p>$x \to y$​表示如果选择了$x$​，则必须选择$y$​.注意这里的$x$​和$y$​​表示变量取0或1时代表的节点。其实就是按照逻辑连接词<code>蕴含</code>来理解即可。</p>
-<p>因此我们可以处理一些逻辑关系：</p>
-<h3 id="i-j-不能同时选"><a href="#i-j-不能同时选" class="headerlink" title="$i,j$不能同时选"></a>$i,j$不能同时选</h3><p>连接 $i \to \lnot j$​，$j \to \lnot i$​​</p>
-<p>逻辑表达式 $a_i \;xor\;a_j=1$</p>
-<h3 id="i-j-必须同时选"><a href="#i-j-必须同时选" class="headerlink" title="$i,j$必须同时选"></a>$i,j$必须同时选</h3><p>连接$i \to j$​,$j \to i$​​</p>
-<p>逻辑表达式 $a_i \; xor \;a_j =0$​</p>
-<h3 id="i-j-至少选一个"><a href="#i-j-至少选一个" class="headerlink" title="$i,j$至少选一个"></a>$i,j$至少选一个</h3><p>连接$\lnot i \to j$​​​​​​,            $\lnot j \to i$​​,             $i \to \lnot j$​​ ,     $j \to \lnot i$​​​​</p>
-<p>逻辑表达式 $a_i | a_j=1$</p>
-<h3 id="i-​​必须选"><a href="#i-​​必须选" class="headerlink" title="$i$​​必须选"></a>$i$​​必须选</h3><p>连接$\lnot i \to i$​</p>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>1、<strong>逆否命题</strong>是需要保证的。</p>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>构图结束后，在这张有向图上跑Tarjan进行缩点。那么根据上面我们对边的定义，如果如果$x_i$和$\lnot x_i$在一个SCC中，显然是无解的。</p>
-<p>排除掉无解的情形，考虑对DAG进行拓扑排序。如果$x_i$的拓扑序比$\lnot x_i$小，那么$x_i$取False。因为不然的话会出现$1 \to 0=0$的非法情况。</p>
-<p>此外，根据Tarjan的运行流程，并不需要真的跑拓扑排序。因为<strong>反图的拓扑序</strong>就是Tarjan生成SCC的顺序。</p>
-<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="CF-468-B"><a href="#CF-468-B" class="headerlink" title="CF 468 B"></a>CF 468 B</h3><p>注意弄清$x$的01取值和集合划分的关系。</p>
-]]></content>
-      <categories>
-        <category>Algorithm Competitions</category>
-      </categories>
-      <tags>
-        <tag>2-SAT</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Welcome to LaiAng80586&#39;s Blog！(&gt;ω&lt;*)</title>
-    <url>/2021/07/27/about/</url>
-    <content><![CDATA[<h2 id="Self-Introduction"><a href="#Self-Introduction" class="headerlink" title="Self Introduction"></a>Self Introduction</h2><p>LaiAng80586</p>
-<p>BUAA SCSE 2020</p>
-]]></content>
-  </entry>
-  <entry>
     <title>2021年7月训练</title>
     <url>/2021/07/27/2021%E5%B9%B47%E6%9C%88%E8%AE%AD%E7%BB%83/</url>
     <content><![CDATA[<h1 id="202107月训练"><a href="#202107月训练" class="headerlink" title="202107月训练"></a>202107月训练</h1><h3 id="CF-1547F"><a href="#CF-1547F" class="headerlink" title="CF 1547F"></a>CF 1547F</h3><p>其实我们已经想到了本质是求<strong>最长的一段不是全局公约数的子序列</strong>长度，而且$O(\sum n)$的提示也容易使人明白需要用类似尺取的方法。但差点意思的是怎么尺取呢？</p>
@@ -168,6 +89,78 @@ C_n^m \equiv C_{n/p}^{m/p}\cdot C_{n \;mod\;p}^{m\;mod\;p}\;(mod \;p),\text{p is
       <categories>
         <category>Algorithm Competitions</category>
       </categories>
+  </entry>
+  <entry>
+    <title>2021牛客暑期多校训练营4 B</title>
+    <url>/2021/07/27/2021Nowcoder4A/</url>
+    <content><![CDATA[<h2 id="A-Course"><a href="#A-Course" class="headerlink" title="A Course"></a>A Course</h2><p><strong>生成函数</strong>来计数不同课的选择方案</p>
+<script type="math/tex; mode=display">
+\sum_{i=0}^n x^i = \frac{1}{1-x^n}\\
+f_i(x) =\prod_{i \to j}  f_j...</script><h2 id="B-Sample-Game"><a href="#B-Sample-Game" class="headerlink" title="B Sample Game"></a>B Sample Game</h2><h3 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h3><p>有一个随机数生成器可以生成$[1,n]$中所有数，每个数被生成的概率为$p_i$,该生成器如果生成的数均不小于之前生成的所有数，则继续生成，否则停止。记每一轮一共生成了$x$个数，则收益为$x^2$。问期望收益。</p>
+<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><script type="math/tex; mode=display">
+1 \leq n \leq 100</script><h3 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h3><p>这个题巧妙之处在于对长度发生概率的<strong>设而不求</strong>。</p>
+<p>首先我们根据题意知道除了最后一个数之外，该生成序列是单调不降的。那么一旦我们知道了每一个数被生成了多少次，则生成序列唯一确定。因此我们可以用<strong>生成函数</strong>来描述这个期望。</p>
+<p>注意到对于一种数，它的被生成的无限期望为</p>
+<script type="math/tex; mode=display">
+E(\infty)=\sum_{i=1}^{\infty}p_s^i \cdot x_s^i=\frac{1}{1-p_sx_s}</script><p>因此从<strong>序列长度</strong>为1到长度为无穷的期望组合的描述如下</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f(x)&=\sum_{i=1}^{\infty} \big(\sum_{s_1+s_2+...+s_n=i} \prod_{k=1}^n p_k^{s_k}) \cdot x^i\\
+&=\sum_{i=1}^{\infty}P(len>i)x^i\\
+&=\prod_{i=1}^n (1+p_ix_i+p_i^2x_i^2+...+p_i^{\infty}x_i^{\infty})\\
+&=\prod_{i=1}^n \frac{1}{1-p_ix}
+\end{aligned}</script><p>但这个描述的目的只是间接的得到概率的关系，我们还是得考虑具体的期望公式，再设法往上面得到的这个$f(x)$上转化。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+E&=\sum_{i=0}^{\infty}\big(P(len>i) -P(len>i+1))\cdot i^2\\
+&展开后按照P(len>i)合并项得到\\
+&=\sum_{i=0}^{\infty}P(len>i)[(i+1)^2-i^2]\\
+&=\sum_{i=0}^{\infty}P(len>i)(2i+1)\\
+&=2\cdot f'(1)+f(1)
+\end{aligned}</script><p>下面再考虑求$f’(x)$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+令g_i(x)&=\frac{1}{1-p_ix}\\
+则g_i'(x)&=\frac{p_i}{(1-p_ix)^2}\\
+故f'(x)&=\sum_{i=1}^{n}g_i'(x)\cdot \prod_{j \not=i}g_j(x)\\
+&=f(x)\cdot \sum_{i=1}^n \frac{p_i}{1-p_ix}
+\end{aligned}</script><p>故答案就是</p>
+<script type="math/tex; mode=display">
+\big(1+2\cdot\sum_{i=1}^n \frac{p_i}{1-p_i})f(1)</script>]]></content>
+      <categories>
+        <category>Algorithm Competitions</category>
+      </categories>
+      <tags>
+        <tag>生成函数</tag>
+        <tag>概率期望</tag>
+        <tag>设而不求</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2-SAT 学习</title>
+    <url>/2021/08/06/2sat/</url>
+    <content><![CDATA[<h2 id="构图"><a href="#构图" class="headerlink" title="构图"></a>构图</h2><p>对于变量$x_i$​​​,节点$\lnot i$​​表示$x_i=False$​​,节点$2i$​​表示$i$​​.​</p>
+<p>$x \to y$​表示如果选择了$x$​，则必须选择$y$​.注意这里的$x$​和$y$​​表示变量取0或1时代表的节点。其实就是按照逻辑连接词<code>蕴含</code>来理解即可。</p>
+<p>因此我们可以处理一些逻辑关系：</p>
+<h3 id="i-j-不能同时选"><a href="#i-j-不能同时选" class="headerlink" title="$i,j$不能同时选"></a>$i,j$不能同时选</h3><p>连接 $i \to \lnot j$​，$j \to \lnot i$​​</p>
+<p>逻辑表达式 $a_i \;xor\;a_j=1$</p>
+<h3 id="i-j-必须同时选"><a href="#i-j-必须同时选" class="headerlink" title="$i,j$必须同时选"></a>$i,j$必须同时选</h3><p>连接$i \to j$​,$j \to i$​​</p>
+<p>逻辑表达式 $a_i \; xor \;a_j =0$​</p>
+<h3 id="i-j-至少选一个"><a href="#i-j-至少选一个" class="headerlink" title="$i,j$至少选一个"></a>$i,j$至少选一个</h3><p>连接$\lnot i \to j$​​​​​​,            $\lnot j \to i$​​,             $i \to \lnot j$​​ ,     $j \to \lnot i$​​​​</p>
+<p>逻辑表达式 $a_i | a_j=1$</p>
+<h3 id="i-​​必须选"><a href="#i-​​必须选" class="headerlink" title="$i$​​必须选"></a>$i$​​必须选</h3><p>连接$\lnot i \to i$​</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>1、<strong>逆否命题</strong>是需要保证的。</p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>构图结束后，在这张有向图上跑Tarjan进行缩点。那么根据上面我们对边的定义，如果如果$x_i$和$\lnot x_i$在一个SCC中，显然是无解的。</p>
+<p>排除掉无解的情形，考虑对DAG进行拓扑排序。如果$x_i$的拓扑序比$\lnot x_i$小，那么$x_i$取False。因为不然的话会出现$1 \to 0=0$的非法情况。</p>
+<p>此外，根据Tarjan的运行流程，并不需要真的跑拓扑排序。因为<strong>反图的拓扑序</strong>就是Tarjan生成SCC的顺序。</p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="CF-468-B"><a href="#CF-468-B" class="headerlink" title="CF 468 B"></a>CF 468 B</h3><p>注意弄清$x$的01取值和集合划分的关系。</p>
+]]></content>
+      <categories>
+        <category>Algorithm Competitions</category>
+      </categories>
+      <tags>
+        <tag>2-SAT</tag>
+      </tags>
   </entry>
   <entry>
     <title>Codeforces 1475F - Unusual Matrix</title>
@@ -275,53 +268,6 @@ a_1x_1=b_2-b_1+a_2x_2</script><p>因此可知</p>
       </tags>
   </entry>
   <entry>
-    <title>Codeforces 1508A - Binary Literature</title>
-    <url>/2021/08/04/cf1508a/</url>
-    <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>有三个长度为$2n$的01串，现在要求构造一个长度不超过$3n$的01串，使得所给的三个01串中至少两个是该构造串的子序列。</p>
-<script type="math/tex; mode=display">
-1  \leq n \leq 10^5</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>这个题的关键在于<strong>怎么处理3和2的关系</strong>。</p>
-<p>一个正确的思路是尽量用串与串之间公共的子序列来节省构造的位置。一个错误的方向是从三个串两两考虑来验证能否构造。</p>
-<p>为什么是错误的方向？如果是这么做，为什么是给三个串而不是四个、五个串？为什么最后构造长度要求$3n$不是其他量？</p>
-<p>这个3是有原因的。</p>
-<p>首先说一说证明上的可行性。</p>
-<p>根据抽屉原理，长度为$2n$的01串，至少有一种数码出现不少于$n$​​次。而<strong>再根据抽屉原理</strong>，三个串的这种数码必然有两个串的是一样的。</p>
-<p>也就是说，最终的串必然有$00…0$或$11…1$的子序列，长度至少为$n$.而包含两个串作为子序列的答案串长度$L \leq |s|+|t|-lcs \leq4n-n=3n$​因此构造是一定可行的。</p>
-<p>再说具体的构造方法。其实还是抽屉原理。</p>
-<p>我们不妨用三个指针来考虑三个给定的01串。那么这三个指针指向的字符，必然有一个是在两个串上都出现的（因为只有01两种字符），把它放到答案中，移动指针。那么一直移动下去必然有一个时刻某个串全部包含在了答案中。记此时答案串已有字符$k$个，这说明三个指针至少移动了$2k$次，那么对于剩下两个没有完全包含的01串，已经移动了$2k-2n$次，<strong>再利用抽屉原理</strong>，必然有一个串的指针至少移动了$k-n$次。现在把这个串的剩余部分全放到答案中。这么做之所以可行，是因为$2n-(k-n)=3n-k$​.</p>
-<p>P.S. 这种抽屉原理套抽屉原理让我回想起当年高三做北京高考数学最后一题的情形。（归根结底还是不会呀（逃））</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> min(a,b) (a)&lt;(b) ? (a) : (b)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> max(a,b) (a)&gt;(b) ? (a) : (b)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">mread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ret=<span class="number">0</span>,f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">char</span> c=<span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(c&lt;<span class="string">&#x27;0&#x27;</span> || c&gt;<span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(c==<span class="string">&#x27;-&#x27;</span>)f=<span class="number">-1</span>;</span><br><span class="line">		c=<span class="built_in">getchar</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		ret=ret*<span class="number">10</span>+c-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">		c=<span class="built_in">getchar</span>();</span><br><span class="line">	&#125; <span class="keyword">while</span>(<span class="string">&#x27;0&#x27;</span>&lt;=c &amp;&amp; c&lt;=<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">	<span class="keyword">return</span> ret*f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 100100</span></span><br><span class="line"><span class="keyword">char</span> a[MAXN&lt;&lt;<span class="number">1</span>],b[MAXN&lt;&lt;<span class="number">1</span>],c[MAXN&lt;&lt;<span class="number">1</span>];</span><br><span class="line"><span class="keyword">char</span> output[MAXN&lt;&lt;<span class="number">2</span>];</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> sig;</span><br><span class="line">	<span class="keyword">int</span> kase;</span><br><span class="line">	kase=<span class="built_in">mread</span>();</span><br><span class="line">	<span class="keyword">int</span> i,j,k,now;</span><br><span class="line">	<span class="keyword">while</span>(kase--) &#123;</span><br><span class="line">		n=<span class="built_in">mread</span>();</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,a+<span class="number">1</span>);</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,b+<span class="number">1</span>);</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,c+<span class="number">1</span>);</span><br><span class="line">		now=i=j=k=<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;=<span class="number">2</span>*n &amp;&amp; j&lt;=<span class="number">2</span>*n &amp;&amp; k&lt;=<span class="number">2</span>*n) &#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]==b[j]) &#123;</span><br><span class="line">				output[now++]=a[i];</span><br><span class="line">				i++,j++;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span>(a[i]==c[k]) &#123;</span><br><span class="line">				output[now++]=a[i];</span><br><span class="line">				i++,k++;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span>(b[j]==c[k]) &#123;</span><br><span class="line">				output[now++]=b[j];</span><br><span class="line">				j++,k++;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(i&gt;<span class="number">2</span>*n) &#123;</span><br><span class="line">				sig=<span class="number">1</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span>(j&gt;<span class="number">2</span>*n) &#123;</span><br><span class="line">				sig=<span class="number">2</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span>(k&gt;<span class="number">2</span>*n) &#123;</span><br><span class="line">				sig=<span class="number">3</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line"><span class="comment">//			printf(&quot;%d %d %d\n&quot;,i,j,k);</span></span><br><span class="line">		&#125;</span><br><span class="line"><span class="comment">//		printf(&quot;%d\n&quot;,now);</span></span><br><span class="line">		<span class="keyword">if</span>(sig==<span class="number">1</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span>(j&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(j&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=b[j++];</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(k&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(k&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=c[k++];</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(sig==<span class="number">2</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span>(i&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(i&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=a[i++];</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(k&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(k&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=c[k++];</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(sig==<span class="number">3</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span>(i&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(i&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=a[i++];</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(j&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(j&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=b[j++];</span><br><span class="line">		&#125;</span><br><span class="line">		output[now]=<span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,output+<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Algorithm Competitions</category>
-      </categories>
-      <tags>
-        <tag>构造</tag>
-        <tag>组合数学</tag>
-        <tag>抽屉原理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Codeforces 1549D - Integers Have Friends</title>
-    <url>/2021/08/02/cf1549d/</url>
-    <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>Define a <strong>subarray</strong> $a_i,a_{i+1},…,a_j$​​​ to be a <em>friend group</em> if and only if there exists an integer $m≥2$​ such that $a_i\; mod\;m=a_{i+1}\;mod\;m=…=a_j\;mod\;m$​,</p>
-<p>Your friend Gregor wants to know the size of the <strong>largest</strong> friend group in $a$.</p>
-<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
-\sum n \leq 2 \cdot 10^5</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>这个题没做出来真是太可惜了！其实就是<strong>求一个序列最长的GCD区间</strong>，基本的想法都想到了，却栽在这个数据结构的处理上。</p>
-<p>核心问题：双指针。</p>
-<p>区间GCD和区间max，区间min都是符合叠加原则的，因此它的单调性就在于如果我的区间范围越大，那么区间GCD趋向于更小。因此我们只需要有ST表来$O(logn)$预处理，$O(1)$询问来验证一个区间的GCD，然后固定右端点，不断地跳左端点来更新最大区间就行了！</p>
-<p>复杂度 $O(Nlog1e18logn)$</p>
-<p>注意ST表怎么来$O(1)$查询的！</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 200100 </span></span><br><span class="line"><span class="function">LL <span class="title">mread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	LL ret=<span class="number">0</span>,f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">char</span> c=<span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(c&lt;<span class="string">&#x27;0&#x27;</span> || c&gt;<span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(c==<span class="string">&#x27;-&#x27;</span>)f=<span class="number">-1</span>;</span><br><span class="line">		c=<span class="built_in">getchar</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		ret=ret*<span class="number">10</span>+c-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">		c=<span class="built_in">getchar</span>();</span><br><span class="line">	&#125; <span class="keyword">while</span>(<span class="string">&#x27;0&#x27;</span>&lt;=c &amp;&amp; c&lt;=<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">	<span class="keyword">return</span> ret*f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">LL <span class="title">gcd</span><span class="params">(LL a,LL b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(b==<span class="number">0</span>)<span class="keyword">return</span> a;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">gcd</span>(b,a%b);</span><br><span class="line">&#125;</span><br><span class="line">LL a[MAXN],d[MAXN];</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">namespace</span> ST &#123;</span><br><span class="line">	LL st[MAXN][<span class="number">22</span>];</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n<span class="number">-1</span>; i++)st[i][<span class="number">0</span>]=d[i];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=<span class="number">22</span>; j++)</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i+(<span class="number">1</span>&lt;&lt;j)<span class="number">-1</span>&lt;=n<span class="number">-1</span>; i++)</span><br><span class="line">				st[i][j]=<span class="built_in">gcd</span>(st[i][j<span class="number">-1</span>],st[i+(<span class="number">1</span>&lt;&lt;(j<span class="number">-1</span>))][j<span class="number">-1</span>]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function">LL <span class="title">query</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">		LL ret=<span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">int</span> h=<span class="built_in">floor</span>(<span class="built_in">log2</span>(r-l+<span class="number">1</span>));</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">gcd</span>(st[l][h],st[r-(<span class="number">1</span>&lt;&lt;h)+<span class="number">1</span>][h]);<span class="comment">//ST表的运用最大覆盖即可 </span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> kase;</span><br><span class="line">	<span class="keyword">int</span> ans,j;</span><br><span class="line">	kase=<span class="built_in">mread</span>();</span><br><span class="line">	<span class="keyword">while</span>(kase--) &#123;</span><br><span class="line">		n=<span class="built_in">mread</span>();</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)a[i]=<span class="built_in">mread</span>();</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;n; i++)d[i]=<span class="built_in">abs</span>(a[i+<span class="number">1</span>]-a[i]);</span><br><span class="line">		ST::<span class="built_in">build</span>();</span><br><span class="line">		j=<span class="number">1</span>,ans=<span class="number">1</span>;<span class="comment">//初始化！ </span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n<span class="number">-1</span>; i++) &#123;</span><br><span class="line">			<span class="keyword">while</span>(j&lt;=i &amp;&amp; ST::<span class="built_in">query</span>(j,i) == <span class="number">1</span>)j++;</span><br><span class="line">			ans=<span class="built_in">max</span>(ans,i-j+<span class="number">2</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,ans);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Algorithm Competitions</category>
-      </categories>
-      <tags>
-        <tag>ST表</tag>
-        <tag>双指针</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Codeforces Round 736 (Div. 2) E - The Three Little Pigs</title>
     <url>/2021/08/03/cf1549e/</url>
     <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>对于一个$n$,给定$q$​​次询问,回答</p>
@@ -359,6 +305,27 @@ P(t)=\frac{(1+t)^{3n+3}-(1+t)^3}{(1+t)^3-1}</script><p>这个式子模拟大除�
         <tag>生成函数</tag>
         <tag>组合数学</tag>
         <tag>递推与动归</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Codeforces 1549D - Integers Have Friends</title>
+    <url>/2021/08/02/cf1549d/</url>
+    <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>Define a <strong>subarray</strong> $a_i,a_{i+1},…,a_j$​​​ to be a <em>friend group</em> if and only if there exists an integer $m≥2$​ such that $a_i\; mod\;m=a_{i+1}\;mod\;m=…=a_j\;mod\;m$​,</p>
+<p>Your friend Gregor wants to know the size of the <strong>largest</strong> friend group in $a$.</p>
+<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><script type="math/tex; mode=display">
+\sum n \leq 2 \cdot 10^5</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>这个题没做出来真是太可惜了！其实就是<strong>求一个序列最长的GCD区间</strong>，基本的想法都想到了，却栽在这个数据结构的处理上。</p>
+<p>核心问题：双指针。</p>
+<p>区间GCD和区间max，区间min都是符合叠加原则的，因此它的单调性就在于如果我的区间范围越大，那么区间GCD趋向于更小。因此我们只需要有ST表来$O(logn)$预处理，$O(1)$询问来验证一个区间的GCD，然后固定右端点，不断地跳左端点来更新最大区间就行了！</p>
+<p>复杂度 $O(Nlog1e18logn)$</p>
+<p>注意ST表怎么来$O(1)$查询的！</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 200100 </span></span><br><span class="line"><span class="function">LL <span class="title">mread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	LL ret=<span class="number">0</span>,f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">char</span> c=<span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(c&lt;<span class="string">&#x27;0&#x27;</span> || c&gt;<span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(c==<span class="string">&#x27;-&#x27;</span>)f=<span class="number">-1</span>;</span><br><span class="line">		c=<span class="built_in">getchar</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		ret=ret*<span class="number">10</span>+c-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">		c=<span class="built_in">getchar</span>();</span><br><span class="line">	&#125; <span class="keyword">while</span>(<span class="string">&#x27;0&#x27;</span>&lt;=c &amp;&amp; c&lt;=<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">	<span class="keyword">return</span> ret*f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">LL <span class="title">gcd</span><span class="params">(LL a,LL b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(b==<span class="number">0</span>)<span class="keyword">return</span> a;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">gcd</span>(b,a%b);</span><br><span class="line">&#125;</span><br><span class="line">LL a[MAXN],d[MAXN];</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">namespace</span> ST &#123;</span><br><span class="line">	LL st[MAXN][<span class="number">22</span>];</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n<span class="number">-1</span>; i++)st[i][<span class="number">0</span>]=d[i];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=<span class="number">22</span>; j++)</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i+(<span class="number">1</span>&lt;&lt;j)<span class="number">-1</span>&lt;=n<span class="number">-1</span>; i++)</span><br><span class="line">				st[i][j]=<span class="built_in">gcd</span>(st[i][j<span class="number">-1</span>],st[i+(<span class="number">1</span>&lt;&lt;(j<span class="number">-1</span>))][j<span class="number">-1</span>]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function">LL <span class="title">query</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">		LL ret=<span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">int</span> h=<span class="built_in">floor</span>(<span class="built_in">log2</span>(r-l+<span class="number">1</span>));</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">gcd</span>(st[l][h],st[r-(<span class="number">1</span>&lt;&lt;h)+<span class="number">1</span>][h]);<span class="comment">//ST表的运用最大覆盖即可 </span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> kase;</span><br><span class="line">	<span class="keyword">int</span> ans,j;</span><br><span class="line">	kase=<span class="built_in">mread</span>();</span><br><span class="line">	<span class="keyword">while</span>(kase--) &#123;</span><br><span class="line">		n=<span class="built_in">mread</span>();</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)a[i]=<span class="built_in">mread</span>();</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;n; i++)d[i]=<span class="built_in">abs</span>(a[i+<span class="number">1</span>]-a[i]);</span><br><span class="line">		ST::<span class="built_in">build</span>();</span><br><span class="line">		j=<span class="number">1</span>,ans=<span class="number">1</span>;<span class="comment">//初始化！ </span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n<span class="number">-1</span>; i++) &#123;</span><br><span class="line">			<span class="keyword">while</span>(j&lt;=i &amp;&amp; ST::<span class="built_in">query</span>(j,i) == <span class="number">1</span>)j++;</span><br><span class="line">			ans=<span class="built_in">max</span>(ans,i-j+<span class="number">2</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,ans);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Algorithm Competitions</category>
+      </categories>
+      <tags>
+        <tag>ST表</tag>
+        <tag>双指针</tag>
       </tags>
   </entry>
   <entry>
@@ -457,6 +424,13 @@ cbacbacba...</script><p>所以用输入的总字符串来匹配上面六种合�
       <tags>
         <tag>组合数学</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Welcome to LaiAng80586&#39;s Blog！(&gt;ω&lt;*)</title>
+    <url>/2021/07/27/about/</url>
+    <content><![CDATA[<h2 id="Self-Introduction"><a href="#Self-Introduction" class="headerlink" title="Self Introduction"></a>Self Introduction</h2><p>LaiAng80586</p>
+<p>BUAA SCSE 2020</p>
+]]></content>
   </entry>
   <entry>
     <title>2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)  G - Maximum Islands</title>
@@ -785,6 +759,32 @@ dp|=(\lnot A \land V)\lor(A\land \lnot V)</script><p>具体细节见代码即可
       <tags>
         <tag>图论</tag>
         <tag>二分图最大权匹配</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Codeforces 1508A - Binary Literature</title>
+    <url>/2021/08/04/cf1508a/</url>
+    <content><![CDATA[<h2 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h2><p>有三个长度为$2n$的01串，现在要求构造一个长度不超过$3n$的01串，使得所给的三个01串中至少两个是该构造串的子序列。</p>
+<script type="math/tex; mode=display">
+1  \leq n \leq 10^5</script><h2 id="分析与解"><a href="#分析与解" class="headerlink" title="分析与解"></a>分析与解</h2><p>这个题的关键在于<strong>怎么处理3和2的关系</strong>。</p>
+<p>一个正确的思路是尽量用串与串之间公共的子序列来节省构造的位置。一个错误的方向是从三个串两两考虑来验证能否构造。</p>
+<p>为什么是错误的方向？如果是这么做，为什么是给三个串而不是四个、五个串？为什么最后构造长度要求$3n$不是其他量？</p>
+<p>这个3是有原因的。</p>
+<p>首先说一说证明上的可行性。</p>
+<p>根据抽屉原理，长度为$2n$的01串，至少有一种数码出现不少于$n$​​次。而<strong>再根据抽屉原理</strong>，三个串的这种数码必然有两个串的是一样的。</p>
+<p>也就是说，最终的串必然有$00…0$或$11…1$的子序列，长度至少为$n$.而包含两个串作为子序列的答案串长度$L \leq |s|+|t|-lcs \leq4n-n=3n$​因此构造是一定可行的。</p>
+<p>再说具体的构造方法。其实还是抽屉原理。</p>
+<p>我们不妨用三个指针来考虑三个给定的01串。那么这三个指针指向的字符，必然有一个是在两个串上都出现的（因为只有01两种字符），把它放到答案中，移动指针。那么一直移动下去必然有一个时刻某个串全部包含在了答案中。记此时答案串已有字符$k$个，这说明三个指针至少移动了$2k$次，那么对于剩下两个没有完全包含的01串，已经移动了$2k-2n$次，<strong>再利用抽屉原理</strong>，必然有一个串的指针至少移动了$k-n$次。现在把这个串的剩余部分全放到答案中。这么做之所以可行，是因为$2n-(k-n)=3n-k$​.</p>
+<p>P.S. 这种抽屉原理套抽屉原理让我回想起当年高三做北京高考数学最后一题的情形。（归根结底还是不会呀（逃））</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> min(a,b) (a)&lt;(b) ? (a) : (b)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> max(a,b) (a)&gt;(b) ? (a) : (b)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">mread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ret=<span class="number">0</span>,f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">char</span> c=<span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(c&lt;<span class="string">&#x27;0&#x27;</span> || c&gt;<span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(c==<span class="string">&#x27;-&#x27;</span>)f=<span class="number">-1</span>;</span><br><span class="line">		c=<span class="built_in">getchar</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		ret=ret*<span class="number">10</span>+c-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">		c=<span class="built_in">getchar</span>();</span><br><span class="line">	&#125; <span class="keyword">while</span>(<span class="string">&#x27;0&#x27;</span>&lt;=c &amp;&amp; c&lt;=<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">	<span class="keyword">return</span> ret*f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 100100</span></span><br><span class="line"><span class="keyword">char</span> a[MAXN&lt;&lt;<span class="number">1</span>],b[MAXN&lt;&lt;<span class="number">1</span>],c[MAXN&lt;&lt;<span class="number">1</span>];</span><br><span class="line"><span class="keyword">char</span> output[MAXN&lt;&lt;<span class="number">2</span>];</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> sig;</span><br><span class="line">	<span class="keyword">int</span> kase;</span><br><span class="line">	kase=<span class="built_in">mread</span>();</span><br><span class="line">	<span class="keyword">int</span> i,j,k,now;</span><br><span class="line">	<span class="keyword">while</span>(kase--) &#123;</span><br><span class="line">		n=<span class="built_in">mread</span>();</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,a+<span class="number">1</span>);</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,b+<span class="number">1</span>);</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,c+<span class="number">1</span>);</span><br><span class="line">		now=i=j=k=<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;=<span class="number">2</span>*n &amp;&amp; j&lt;=<span class="number">2</span>*n &amp;&amp; k&lt;=<span class="number">2</span>*n) &#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]==b[j]) &#123;</span><br><span class="line">				output[now++]=a[i];</span><br><span class="line">				i++,j++;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span>(a[i]==c[k]) &#123;</span><br><span class="line">				output[now++]=a[i];</span><br><span class="line">				i++,k++;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span>(b[j]==c[k]) &#123;</span><br><span class="line">				output[now++]=b[j];</span><br><span class="line">				j++,k++;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(i&gt;<span class="number">2</span>*n) &#123;</span><br><span class="line">				sig=<span class="number">1</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span>(j&gt;<span class="number">2</span>*n) &#123;</span><br><span class="line">				sig=<span class="number">2</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span>(k&gt;<span class="number">2</span>*n) &#123;</span><br><span class="line">				sig=<span class="number">3</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line"><span class="comment">//			printf(&quot;%d %d %d\n&quot;,i,j,k);</span></span><br><span class="line">		&#125;</span><br><span class="line"><span class="comment">//		printf(&quot;%d\n&quot;,now);</span></span><br><span class="line">		<span class="keyword">if</span>(sig==<span class="number">1</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span>(j&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(j&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=b[j++];</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(k&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(k&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=c[k++];</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(sig==<span class="number">2</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span>(i&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(i&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=a[i++];</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(k&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(k&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=c[k++];</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(sig==<span class="number">3</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span>(i&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(i&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=a[i++];</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(j&gt;=now-n)</span><br><span class="line">				<span class="keyword">while</span>(j&lt;=<span class="number">2</span>*n)</span><br><span class="line">					output[now++]=b[j++];</span><br><span class="line">		&#125;</span><br><span class="line">		output[now]=<span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,output+<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Algorithm Competitions</category>
+      </categories>
+      <tags>
+        <tag>构造</tag>
+        <tag>组合数学</tag>
+        <tag>抽屉原理</tag>
       </tags>
   </entry>
   <entry>
