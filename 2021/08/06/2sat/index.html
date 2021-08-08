@@ -10,8 +10,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="LaiAng80586,"> 
-    <meta name="description" content="限制条件（约束） $x_1$为假或者$x_2$为假。这里的或是不可兼或。当然其实并不在于两个变量的取值，这个总是可以用$\lnot$​来控制。
-目标是使得所有的限制条件被满足，即为真。因此出现了非法,"> 
+    <meta name="description" content="构图对于变量$x_i$​​​,节点$\lnot i$​​表示$x_i=False$​​,节点$2i$​​表示$i$​​.​
+$x \to y$​表示如果选择了$x$​，则必须选择$y$​.注意这里的,"> 
     <meta name="author" content="John Doe"> 
     <link rel="alternative" href="atom.xml" title="LaiAng80586的小屋" type="application/atom+xml"> 
     
@@ -53,10 +53,21 @@
 
         </div>
         <div class="content markdown">
-            <h2 id="限制条件（约束）"><a href="#限制条件（约束）" class="headerlink" title="限制条件（约束）"></a>限制条件（约束）</h2><p> $x_1$为假或者$x_2$为假。这里的或是不可兼或。当然其实并不在于两个变量的取值，这个总是可以用$\lnot$​来控制。</p>
-<p>目标是使得所有的限制条件被满足，即为真。因此出现了非法情况，就会使得限制条件为假。</p>
-<h2 id="构图"><a href="#构图" class="headerlink" title="构图"></a>构图</h2><p>设$x_i$对应图上节点为$2i$和$2i+1$，那么如果$x_j$为真，则$x_i$必须为假，因此从$2j+1$向$2i$连接一条有向边，同理，从$2i+1$到$2j$连接一条有向边。</p>
-<p>图最终的效果基本是对称的。但有可能某些变量事先就确定了取值，因此会有不对称。</p>
+            <h2 id="构图"><a href="#构图" class="headerlink" title="构图"></a>构图</h2><p>对于变量$x_i$​​​,节点$\lnot i$​​表示$x_i=False$​​,节点$2i$​​表示$i$​​.​</p>
+<p>$x \to y$​表示如果选择了$x$​，则必须选择$y$​.注意这里的$x$​和$y$​​表示变量取0或1时代表的节点。其实就是按照逻辑连接词<code>蕴含</code>来理解即可。</p>
+<p>因此我们可以处理一些逻辑关系：</p>
+<h3 id="i-j-不能同时选"><a href="#i-j-不能同时选" class="headerlink" title="$i,j$不能同时选"></a>$i,j$不能同时选</h3><p>连接 $i \to \lnot j$​，$j \to \lnot i$​​</p>
+<p>逻辑表达式 $a_i \;xor\;a_j=1$</p>
+<h3 id="i-j-必须同时选"><a href="#i-j-必须同时选" class="headerlink" title="$i,j$必须同时选"></a>$i,j$必须同时选</h3><p>连接$i \to j$​,$j \to i$​​</p>
+<p>逻辑表达式 $a_i \; xor \;a_j =0$​</p>
+<h3 id="i-j-至少选一个"><a href="#i-j-至少选一个" class="headerlink" title="$i,j$至少选一个"></a>$i,j$至少选一个</h3><p>连接$\lnot i \to j$​​​​​​,            $\lnot j \to i$​​,             $i \to \lnot j$​​ ,     $j \to \lnot i$​​​​</p>
+<p>逻辑表达式 $a_i | a_j=1$</p>
+<h3 id="i-​​必须选"><a href="#i-​​必须选" class="headerlink" title="$i$​​必须选"></a>$i$​​必须选</h3><p>连接$\lnot i \to i$​</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>1、<strong>逆否命题</strong>是需要保证的。</p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>构图结束后，在这张有向图上跑Tarjan进行缩点。那么根据上面我们对边的定义，如果如果$x_i$和$\lnot x_i$在一个SCC中，显然是无解的。</p>
+<p>排除掉无解的情形，考虑对DAG进行拓扑排序。如果$x_i$的拓扑序比$\lnot x_i$小，那么$x_i$取False。因为不然的话会出现$1 \to 0=0$的非法情况。</p>
+<p>此外，根据Tarjan的运行流程，并不需要真的跑拓扑排序。因为<strong>反图的拓扑序</strong>就是Tarjan生成SCC的顺序。</p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="CF-468-B"><a href="#CF-468-B" class="headerlink" title="CF 468 B"></a>CF 468 B</h3><p>注意弄清$x$的01取值和集合划分的关系。</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
